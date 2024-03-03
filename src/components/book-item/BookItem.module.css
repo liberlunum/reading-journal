@@ -1,0 +1,15 @@
+.BookItem {
+  width: 345px;
+  margin: 20px;
+}
+
+.BookItem__media {
+  max-height: 250px;
+  width: 100%;
+}
+
+.BookItem__title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
