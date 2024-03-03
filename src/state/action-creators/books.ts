@@ -14,9 +14,13 @@ export const fetchBooks = (
       const response = await fetch(
         `https://openlibrary.org/search.json?q=${q}&fields=key,title,author_name,cover_edition_key&sort=${sort}&limit=${limit}&page=${page}`
       );
+      const json = await response.json();
       dispatch({
         type: BooksActionTypes.FETCH_BOOKS_SUCCESS,
-        payload: (await response.json())['docs'],
+        payload: {
+          books: json.docs,
+          numFound: json.numFound,
+        },
       });
     } catch (e) {
       console.log(e);

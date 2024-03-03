@@ -6,15 +6,15 @@ import style from './SearchInput.module.css';
 import { FormEvent, useState } from 'react';
 
 interface p {
-  searchBooks: Function;
+  setQuery: Function;
 }
 
-function SearchInput({ searchBooks }: p) {
+function SearchInput({ setQuery }: p) {
   const [searchString, setSearchString] = useState('');
 
   const search = (event: MouseEvent | FormEvent) => {
     event.preventDefault();
-    searchBooks(searchString);
+    setQuery(searchString);
   };
 
   return (

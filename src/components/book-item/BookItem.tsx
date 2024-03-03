@@ -6,12 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './BookItem.module.css';
 import { Book } from '../../types/books';
-import { useTypedSelector } from '../hooks/useTypedSelector';
 
 function BookItem({ book }: { book: Book }) {
-  const { loading } = useTypedSelector(state => state.books);
-  console.log(loading);
-
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -33,7 +29,11 @@ function BookItem({ book }: { book: Book }) {
         >
           {book.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          className={style.BookItem__author}
+          variant="body2"
+          color="text.secondary"
+        >
           {book.author_name}
         </Typography>
       </CardContent>

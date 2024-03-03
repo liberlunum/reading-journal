@@ -9,6 +9,7 @@ export interface BooksState {
   books: Book[];
   loading: boolean;
   error: null | string;
+  numFound?: number;
 }
 
 export enum BooksActionTypes {
@@ -21,9 +22,14 @@ interface FetchBooksAction {
   type: BooksActionTypes.FETCH_BOOKS;
 }
 
+interface booksFetch {
+  books: Book[];
+  numFound: number;
+}
+
 interface FetchBooksSuccessAction {
   type: BooksActionTypes.FETCH_BOOKS_SUCCESS;
-  payload: any[];
+  payload: booksFetch;
 }
 
 interface FetchBooksErrorAction {
