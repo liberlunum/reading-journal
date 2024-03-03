@@ -1,0 +1,17 @@
+{
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "bracketSameLine": false,
+  "trailingComma": "es5",
+  "printWidth": 80,
+  "parser": "typescript",
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    }
+  ]
+}
