@@ -6,43 +6,61 @@ import { useDispatch } from 'react-redux';
 import { fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import style from './SearchBooks.module.css';
+import { useSearchParams } from 'react-router-dom';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
   const dispatch: any = useDispatch();
-  const [query, setQuery] = useState('any');
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [countOfPage, setCountOfpage] = useState(1);
 
-  const searchBook = (q = query, sort = 'title') => {
-    dispatch(fetchBooks(q, sort, page));
+  const searchBook = () => {
+    dispatch(fetchBooks(searchParams.toString()));
+  };
+
+  const setPage = (page: number) => {
+    searchParams.set('page', page + '');
+    setSearchParams(searchParams);
   };
 
   useEffect(() => {
-    searchBook();
+    if (!searchParams.get('page')) {
+      setSearchParams({
+        q: 'any',
+        page: '1',
+        limit: '12',
+      });
+    }
   }, []);
 
   useEffect(() => {
     if (numFound) {
-      setCountOfpage(Math.ceil(numFound / 12));
+      const limit = Number(searchParams.get('limit'));
+      setCountOfpage(Math.ceil(numFound / limit));
     }
   }, [numFound]);
 
   useEffect(() => {
     searchBook();
-  }, [query, page]);
+  }, [searchParams]);
 
   return (
     <>
-      <SearchInput setQuery={setQuery} />
-      <BookList books={books} loading={loading} />
-      <Pagination
-        className={style.SearchBooks__pagination}
-        count={countOfPage}
-        onChange={(event, page) => {
-          setPage(page);
-        }}
+      <SearchInput
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
       />
+      <BookList books={books} loading={loading} />
+      {!!numFound && (
+        <Pagination
+          className={style.SearchBooks__pagination}
+          count={countOfPage}
+          page={Number(searchParams.get('page'))}
+          onChange={(event, page) => {
+            setPage(page);
+          }}
+        />
+      )}
     </>
   );
 }

@@ -18,13 +18,13 @@ export enum BooksActionTypes {
   FETCH_BOOKS_ERROR = 'FETCH_BOOKS_ERROR',
 }
 
-interface FetchBooksAction {
-  type: BooksActionTypes.FETCH_BOOKS;
-}
-
 interface booksFetch {
   books: Book[];
   numFound: number;
+}
+
+interface FetchBooksAction {
+  type: BooksActionTypes.FETCH_BOOKS;
 }
 
 interface FetchBooksSuccessAction {

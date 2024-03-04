@@ -4,7 +4,9 @@
 }
 
 .BookItem__media {
-  max-height: 250px;
+  position: relative;
+  max-height: 472px;
+  min-height: 472px;
   width: 100%;
 }
 
@@ -13,4 +15,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.BookItem__media__icon {
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
 }

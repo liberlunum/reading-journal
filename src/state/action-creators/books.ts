@@ -1,18 +1,12 @@
 import { Dispatch } from 'react';
 import { BooksAction, BooksActionTypes } from '../../types/books';
 
-export const fetchBooks = (
-  query = 'any',
-  sort = 'title',
-  page = 1,
-  limit = 12
-) => {
+export const fetchBooks = (params: string) => {
   return async (dispatch: Dispatch<BooksAction>) => {
     try {
       dispatch({ type: BooksActionTypes.FETCH_BOOKS });
-      const q = query.split(' ').join('+');
       const response = await fetch(
-        `https://openlibrary.org/search.json?q=${q}&fields=key,title,author_name,cover_edition_key&sort=${sort}&limit=${limit}&page=${page}`
+        `https://openlibrary.org/search.json?${params}&fields=key,title,author_name,cover_edition_key`
       );
       const json = await response.json();
       dispatch({

@@ -5,16 +5,19 @@ import SearchIcon from '@mui/icons-material/Search';
 import style from './SearchInput.module.css';
 import { FormEvent, useState } from 'react';
 
-interface p {
-  setQuery: Function;
+interface prop {
+  searchParams: URLSearchParams;
+  setSearchParams: Function;
 }
 
-function SearchInput({ setQuery }: p) {
+function SearchInput({ searchParams, setSearchParams }: prop) {
   const [searchString, setSearchString] = useState('');
 
   const search = (event: MouseEvent | FormEvent) => {
     event.preventDefault();
-    setQuery(searchString);
+    searchParams.set('q', searchString);
+    searchParams.set('page', '1');
+    setSearchParams(searchParams);
   };
 
   return (

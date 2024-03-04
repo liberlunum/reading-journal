@@ -5,6 +5,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './BookItem.module.css';
+import { IconButton } from '@mui/material';
+import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
 
 function BookItem({ book }: { book: Book }) {
@@ -12,14 +14,21 @@ function BookItem({ book }: { book: Book }) {
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
       <CardMedia
         className={style.BookItem__media}
-        component="img"
-        alt=""
         image={
           book.cover_edition_key
             ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`
             : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
         }
-      />
+      >
+        <IconButton
+          className={style.BookItem__media__icon}
+          aria-label="favorite"
+          size="large"
+          color="error"
+        >
+          <FavoriteBorder />
+        </IconButton>
+      </CardMedia>
       <CardContent>
         <Typography
           className={style.BookItem__title}

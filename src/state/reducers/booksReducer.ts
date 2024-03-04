@@ -4,6 +4,7 @@ const initialState: BooksState = {
   books: [],
   loading: false,
   error: null,
+  numFound: 0,
 };
 
 export const booksReducer = (
