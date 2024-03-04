@@ -23,13 +23,17 @@ function SearchBooks() {
     setSearchParams(searchParams);
   };
 
+  const initSearchParams = () => {
+    setSearchParams({
+      q: 'any',
+      limit: '12',
+      page: '1',
+    });
+  };
+
   useEffect(() => {
-    if (!searchParams.get('page')) {
-      setSearchParams({
-        q: 'any',
-        page: '1',
-        limit: '12',
-      });
+    if (!searchParams.has('page')) {
+      initSearchParams();
     }
   }, []);
 
@@ -41,15 +45,16 @@ function SearchBooks() {
   }, [numFound]);
 
   useEffect(() => {
-    searchBook();
+    if (!searchParams.has('page')) {
+      initSearchParams();
+    } else {
+      searchBook();
+    }
   }, [searchParams]);
 
   return (
     <>
-      <SearchInput
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-      />
+      <SearchInput />
       <BookList books={books} loading={loading} />
       {!!numFound && (
         <Pagination

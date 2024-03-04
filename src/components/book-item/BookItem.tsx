@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './BookItem.module.css';
-import { IconButton } from '@mui/material';
+import { Checkbox, IconButton } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
 
@@ -20,14 +20,12 @@ function BookItem({ book }: { book: Book }) {
             : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
         }
       >
-        <IconButton
+        <Checkbox
           className={style.BookItem__media__icon}
-          aria-label="favorite"
-          size="large"
+          icon={<FavoriteBorder />}
+          checkedIcon={<Favorite />}
           color="error"
-        >
-          <FavoriteBorder />
-        </IconButton>
+        />
       </CardMedia>
       <CardContent>
         <Typography
