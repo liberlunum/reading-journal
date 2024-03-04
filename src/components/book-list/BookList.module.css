@@ -1,0 +1,12 @@
+.BookList {
+  display: flex;
+  flex-wrap: wrap;
+  width: 81%;
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) and (max-width: 1919px) {
+  .BookList {
+    width: 76.1%;
+  }
+}

@@ -1,0 +1,8 @@
+.Skeleton {
+  width: 345px;
+  margin: 20px;
+}
+
+.Skeleton__content {
+  max-height: 140px;
+}
