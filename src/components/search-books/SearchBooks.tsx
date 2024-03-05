@@ -3,7 +3,7 @@ import SearchInput from '../search-input/SearchInput';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
-import { fetchBooks } from '../../state/action-creators/books';
+import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import style from './SearchBooks.module.css';
 import { useSearchParams } from 'react-router-dom';
@@ -25,7 +25,6 @@ function SearchBooks() {
 
   const initSearchParams = () => {
     setSearchParams({
-      q: 'any',
       limit: '12',
       page: '1',
     });
@@ -35,11 +34,15 @@ function SearchBooks() {
     if (!searchParams.has('page')) {
       initSearchParams();
     }
+
+    return () => {
+      dispatch(eraseBooks());
+    };
   }, []);
 
   useEffect(() => {
     if (numFound) {
-      const limit = Number(searchParams.get('limit'));
+      const limit = Number(searchParams.get('limit') || 1);
       setCountOfpage(Math.ceil(numFound / limit));
     }
   }, [numFound]);
@@ -47,7 +50,7 @@ function SearchBooks() {
   useEffect(() => {
     if (!searchParams.has('page')) {
       initSearchParams();
-    } else {
+    } else if (searchParams.get('q')) {
       searchBook();
     }
   }, [searchParams]);

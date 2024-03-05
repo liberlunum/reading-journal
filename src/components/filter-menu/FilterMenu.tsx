@@ -1,7 +1,8 @@
 import { Box, Button, Menu, MenuItem, Paper, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import style from './FilterMenu.module.css';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 interface prop {
   filterIconEl: any;
@@ -30,25 +31,38 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
     handleClose();
   };
 
-  const submitFilter = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-
+  const submitFilter = () => {
     if (subject) searchParams.set('subject', subject);
 
-    if (publishYear) searchParams.set('publish_date', publishYear);
+    if (publishYear) searchParams.set('publish_year', publishYear);
 
     closeMenu();
   };
 
   const resetFilter = () => {
     searchParams.delete('subject');
-    searchParams.delete('publish_date');
+    searchParams.delete('publish_year');
     setSubjcet('');
     setPublishYear('');
     closeMenu();
   };
+
+  const onClose = (event: KeyboardEvent) => {
+    if (event.code !== 'Tab') handleClose();
+  };
+
+  const submit = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submitFilter();
+    }
+  };
+
+  useEffect(() => {
+    setSubjcet(searchParams.get('subject') || '');
+
+    setPublishYear(searchParams.get('publish_year') || '');
+  }, [searchParams]);
 
   return (
     <>
@@ -59,7 +73,8 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
         }}
         anchorEl={filterIconEl}
         open={Boolean(filterIconEl)}
-        onClose={() => handleClose()}
+        onClose={onClose}
+        onKeyDown={submit}
       >
         <Box className={style.FilterMenu__form}>
           <TextField
@@ -76,7 +91,7 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
           />
         </Box>
         <Box className={style.FilterMenu__button_group}>
-          <Button onClick={event => resetFilter()}>Сбросить</Button>
+          <Button onClick={resetFilter}>Сбросить</Button>
           <Button onClick={submitFilter} variant="contained">
             Применить
           </Button>

@@ -3,7 +3,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import style from './SearchInput.module.css';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Divider } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -18,13 +18,16 @@ function SearchInput() {
     event.preventDefault();
     searchParams.set('q', searchString);
     searchParams.set('page', '1');
-    searchParams.delete('subject');
     setSearchParams(searchParams);
   };
 
   const openFilterMenu = (event: React.MouseEvent<HTMLElement>) => {
     setFilterIconEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    setSearchString(searchParams.get('q') || '');
+  }, [searchParams]);
 
   return (
     <div className={style.SearchInput}>
