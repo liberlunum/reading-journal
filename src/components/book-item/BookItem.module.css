@@ -1,12 +1,13 @@
 .BookItem {
-  width: 345px;
+  position: relative;
+  width: 241px;
   margin: 20px;
 }
 
 .BookItem__media {
   position: relative;
-  max-height: 472px;
-  min-height: 472px;
+  max-height: 330.4px;
+  min-height: 330.4px;
   width: 100%;
 }
 

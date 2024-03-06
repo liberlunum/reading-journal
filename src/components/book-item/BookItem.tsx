@@ -5,9 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './BookItem.module.css';
-import { Checkbox, IconButton } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
+import { Box } from '@mui/system';
 
 function BookItem({ book }: { book: Book }) {
   return (
@@ -31,7 +32,6 @@ function BookItem({ book }: { book: Book }) {
         <Typography
           className={style.BookItem__title}
           gutterBottom
-          variant="h5"
           component="div"
         >
           {book.title}

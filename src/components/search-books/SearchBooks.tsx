@@ -25,19 +25,15 @@ function SearchBooks() {
 
   const initSearchParams = () => {
     setSearchParams({
-      limit: '12',
+      limit: '20',
       page: '1',
     });
   };
 
   useEffect(() => {
-    if (!searchParams.has('page')) {
-      initSearchParams();
-    }
+    if (!searchParams.has('page')) initSearchParams();
 
-    return () => {
-      dispatch(eraseBooks());
-    };
+    return () => dispatch(eraseBooks());
   }, []);
 
   useEffect(() => {
@@ -48,11 +44,8 @@ function SearchBooks() {
   }, [numFound]);
 
   useEffect(() => {
-    if (!searchParams.has('page')) {
-      initSearchParams();
-    } else if (searchParams.get('q')) {
-      searchBook();
-    }
+    if (!searchParams.has('page')) initSearchParams();
+    else if (searchParams.get('q')) searchBook();
   }, [searchParams]);
 
   return (

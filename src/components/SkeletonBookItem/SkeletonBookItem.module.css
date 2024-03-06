@@ -1,8 +1,11 @@
 .Skeleton {
-  width: 345px;
+  width: 241px;
   margin: 20px;
 }
 
 .Skeleton__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-height: 140px;
 }
