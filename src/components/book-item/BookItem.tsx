@@ -8,7 +8,6 @@ import style from './BookItem.module.css';
 import { Checkbox } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
-import { Box } from '@mui/system';
 
 function BookItem({ book }: { book: Book }) {
   return (
@@ -17,7 +16,7 @@ function BookItem({ book }: { book: Book }) {
         className={style.BookItem__media}
         image={
           book.cover_edition_key
-            ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`
+            ? `https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`
             : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
         }
       >
