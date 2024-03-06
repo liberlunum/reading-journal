@@ -4,7 +4,7 @@
 }
 
 .FilterMenu__input {
-  margin: 10px;
+  margin: 10px !important;
 }
 
 .FilterMenu__button_group {

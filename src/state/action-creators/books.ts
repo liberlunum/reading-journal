@@ -22,3 +22,15 @@ export const fetchBooks = (params: string) => {
     }
   };
 };
+
+export const eraseBooks = () => {
+  return (dispatch: Dispatch<BooksAction>) => {
+    dispatch({
+      type: BooksActionTypes.FETCH_BOOKS_SUCCESS,
+      payload: {
+        books: [],
+        numFound: 0,
+      },
+    });
+  };
+};
