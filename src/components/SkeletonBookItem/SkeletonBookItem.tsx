@@ -7,13 +7,18 @@ function SkeletonBookItem() {
   return (
     <Card className={style.Skeleton}>
       <Skeleton
-        sx={{ minHeight: 472, maxHeight: 472 }}
+        sx={{ minHeight: 330.4, maxHeight: 330.4 }}
         animation="wave"
         variant="rectangular"
       />
       <CardContent className={style.Skeleton__content}>
-        <Skeleton animation="wave" height={24} style={{ marginBottom: 6 }} />
-        <Skeleton animation="wave" height={10} width="80%" />
+        <Skeleton
+          animation="wave"
+          height={24}
+          width="80%"
+          style={{ marginBottom: 6 }}
+        />
+        <Skeleton animation="wave" height={10} width="60%" />
       </CardContent>
     </Card>
   );

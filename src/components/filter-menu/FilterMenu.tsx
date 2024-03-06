@@ -1,8 +1,7 @@
-import { Box, Button, Menu, MenuItem, Paper, TextField } from '@mui/material';
+import { Box, Button, Menu, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import style from './FilterMenu.module.css';
-import { ConstructionOutlined } from '@mui/icons-material';
 
 interface prop {
   filterIconEl: any;

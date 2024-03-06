@@ -9,7 +9,7 @@ interface prop {
   loading: boolean;
 }
 
-const skeletonArr: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+const skeletonArr: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 function BookList({ books, loading }: prop) {
   return (
