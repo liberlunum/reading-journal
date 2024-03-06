@@ -5,8 +5,8 @@ import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
-import style from './SearchBooks.module.css';
 import { useSearchParams } from 'react-router-dom';
+import style from './SearchBooks.module.css';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);

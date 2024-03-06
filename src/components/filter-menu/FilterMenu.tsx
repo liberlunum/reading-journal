@@ -81,17 +81,21 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
             label="Жанр"
             value={subject}
             onChange={changeSubjcet}
+            size="small"
           />
           <TextField
             className={style.FilterMenu__input}
             label="Год публикации"
             value={publishYear}
             onChange={changePublishYear}
+            size="small"
           />
         </Box>
         <Box className={style.FilterMenu__button_group}>
-          <Button onClick={resetFilter}>Сбросить</Button>
-          <Button onClick={submitFilter} variant="contained">
+          <Button onClick={resetFilter} size="small">
+            Сбросить
+          </Button>
+          <Button onClick={submitFilter} variant="contained" size="small">
             Применить
           </Button>
         </Box>

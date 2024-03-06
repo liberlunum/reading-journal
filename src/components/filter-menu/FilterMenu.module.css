@@ -4,10 +4,11 @@
 }
 
 .FilterMenu__input {
-  margin: 10px !important;
+  margin: 5px 10px !important;
 }
 
 .FilterMenu__button_group {
   display: flex;
-  justify-content: space-around;
+  margin: 5px 10px;
+  justify-content: space-between;
 }

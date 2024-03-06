@@ -28,7 +28,7 @@ export const eraseBooks = () => {
     dispatch({
       type: BooksActionTypes.FETCH_BOOKS_SUCCESS,
       payload: {
-        books: [],
+        books: null,
         numFound: 0,
       },
     });
