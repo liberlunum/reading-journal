@@ -49,7 +49,11 @@ function Favorites() {
             </IconButton>
             <CardMedia
               component="img"
-              image={`https://covers.openlibrary.org/b/id/${book.covers?.[0]}-L.jpg`}
+              image={
+                book.covers?.[0]
+                  ? `https://covers.openlibrary.org/b/id/${book.covers?.[0]}-L.jpg`
+                  : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
+              }
               alt="обложка"
               sx={{ width: '100%', height: '100%' }}
             />
