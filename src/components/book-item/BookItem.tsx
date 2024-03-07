@@ -8,8 +8,11 @@ import style from './BookItem.module.css';
 import { Checkbox } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
+import { Link } from 'react-router-dom';
 
 function BookItem({ book }: { book: Book }) {
+  const bookId = book.key.replace('/works/', '');
+
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -44,7 +47,9 @@ function BookItem({ book }: { book: Book }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Link to={`../book/${bookId}`}>
+          <Button size="small">Learn More</Button>
+        </Link>
       </CardActions>
     </Card>
   );
