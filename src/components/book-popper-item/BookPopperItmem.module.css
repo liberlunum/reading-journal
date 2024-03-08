@@ -1,12 +1,11 @@
 .BookPopperItem {
-  width: 100%;
+  width: 90%;
   display: flex;
 }
 
 .BookPopperItem__content {
   margin-left: 12px;
-  max-width: 87%;
-  width: 87%;
+  width: 100%;
 }
 
 .BookPopperItem__img {

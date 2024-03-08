@@ -3,9 +3,9 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import style from './SearchInput.module.css';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ClickAwayListener, Divider, Popper } from '@mui/material';
+import { ClickAwayListener, Divider } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterMenu from '../filter-menu/FilterMenu';
 import { Box } from '@mui/system';
@@ -22,6 +22,7 @@ function SearchInput() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [popperEl, setPopperEl] = useState<null | HTMLElement>(null);
   const [filterIconEl, setFilterIconEl] = useState<null | HTMLElement>(null);
+  const ref = useRef(null);
 
   const search = (event: MouseEvent | FormEvent) => {
     event.preventDefault();
@@ -68,6 +69,7 @@ function SearchInput() {
   return (
     <div className={style.SearchInput}>
       <Paper
+        ref={ref}
         component="form"
         onSubmit={search}
         sx={{
@@ -86,7 +88,7 @@ function SearchInput() {
               value={searchString}
               onChange={event => {
                 setSearchString(event.currentTarget.value);
-                if (!popperEl) setPopperEl(event.currentTarget);
+                if (!popperEl) setPopperEl(ref.current);
               }}
             />
             <IconButton
