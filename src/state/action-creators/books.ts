@@ -58,5 +58,3 @@ export const eraseBooks = () => {
     });
   };
 };
-
-export type newType = ReturnType<typeof fetchBooks>;
