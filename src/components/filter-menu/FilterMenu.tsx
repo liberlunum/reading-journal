@@ -66,7 +66,6 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
   return (
     <>
       <Menu
-        id="fade-menu"
         MenuListProps={{
           'aria-labelledby': 'fade-button',
         }}
@@ -78,14 +77,14 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
         <Box className={style.FilterMenu__form}>
           <TextField
             className={style.FilterMenu__input}
-            label="Жанр"
+            label="genre"
             value={subject}
             onChange={changeSubjcet}
             size="small"
           />
           <TextField
             className={style.FilterMenu__input}
-            label="Год публикации"
+            label="year of publication"
             value={publishYear}
             onChange={changePublishYear}
             size="small"
@@ -93,10 +92,10 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
         </Box>
         <Box className={style.FilterMenu__button_group}>
           <Button onClick={resetFilter} size="small">
-            Сбросить
+            Reset
           </Button>
           <Button onClick={submitFilter} variant="contained" size="small">
-            Применить
+            Submit
           </Button>
         </Box>
       </Menu>
