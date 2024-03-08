@@ -13,16 +13,17 @@ export const booksReducer = (
 ): BooksState => {
   switch (action.type) {
     case BooksActionTypes.FETCH_BOOKS:
-      return { books: [], loading: true, error: null };
+      return { ...state, books: null, loading: true, error: null };
     case BooksActionTypes.FETCH_BOOKS_SUCCESS:
       return {
+        ...state,
         books: action.payload.books,
         loading: false,
         error: null,
         numFound: action.payload.numFound,
       };
     case BooksActionTypes.FETCH_BOOKS_ERROR:
-      return { books: [], loading: false, error: action.payload };
+      return { ...state, books: [], loading: false, error: action.payload };
     default:
       return state;
   }
