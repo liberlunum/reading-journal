@@ -27,7 +27,7 @@ export const fetchBooks = (params: string) => {
 };
 
 export const fetchBooksForSuggest = (params: string) => {
-  return async (dispatch: Dispatch<BooksSuggestAction>, getState: Function) => {
+  return async (dispatch: Dispatch<BooksSuggestAction>) => {
     try {
       dispatch({ type: BooksForSuggestActionTypes.FETCH_BOOKS_FOR_SUGGEST });
       const response = await fetch(
@@ -58,3 +58,5 @@ export const eraseBooks = () => {
     });
   };
 };
+
+export type newType = ReturnType<typeof fetchBooks>;

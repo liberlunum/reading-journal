@@ -10,13 +10,13 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterMenu from '../filter-menu/FilterMenu';
 import { Box } from '@mui/system';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { useDispatch } from 'react-redux';
 import { fetchBooksForSuggest } from '../../state/action-creators/books';
 import BookPopper from '../book-popper/BookPopper';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function SearchInput() {
   const { books, loading } = useTypedSelector(state => state.booksForSuggest);
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const [timeout, setTime] = useState<NodeJS.Timeout | null>(null);
   const [searchString, setSearchString] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
