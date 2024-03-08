@@ -2,11 +2,7 @@ import BookList from '../../components/book-list/BookList';
 import SearchInput from '../../components/search-input/SearchInput';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import {
-  eraseBooks,
-  fetchBooks,
-  newType,
-} from '../../state/action-creators/books';
+import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import style from './SearchBooks.module.css';
