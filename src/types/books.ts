@@ -6,7 +6,7 @@ export interface Book {
 }
 
 export interface BooksState {
-  books: Book[];
+  books: Book[] | null;
   loading: boolean;
   error: null | string;
   numFound?: number;
@@ -19,7 +19,7 @@ export enum BooksActionTypes {
 }
 
 interface booksFetch {
-  books: Book[];
+  books: Book[] | null;
   numFound: number;
 }
 
