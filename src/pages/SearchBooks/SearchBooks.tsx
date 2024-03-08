@@ -1,8 +1,8 @@
-import BookList from '../book-list/BookList';
-import SearchInput from '../search-input/SearchInput';
+import BookList from '../../components/book-list/BookList';
+import SearchInput from '../../components/search-input/SearchInput';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
@@ -10,7 +10,6 @@ import style from './SearchBooks.module.css';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
-  const booksForSuggest = useTypedSelector(state => state.booksForSuggest);
   const dispatch: any = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [countOfPage, setCountOfpage] = useState(1);
