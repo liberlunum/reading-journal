@@ -8,7 +8,7 @@ import style from './BookItem.module.css';
 import { Checkbox, Skeleton } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
-import { useNavigate } from 'react-router-dom';
+import { useBookNavigate } from '../../hooks/useBookNavigate';
 
 interface loadingTrue {
   loading: true;
@@ -22,16 +22,7 @@ interface loadingFalse {
 type props = loadingFalse | loadingTrue;
 
 function BookItem(props: props) {
-  const navigate = useNavigate();
-
-  const redirect = () => {
-    if ('book' in props) {
-      const bookId = props.book?.key.replace('/works/', '');
-      navigate(`../book/${bookId}`, {
-        state: { authors: props.book.author_name },
-      });
-    }
-  };
+  const navigate = useBookNavigate();
 
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
@@ -78,7 +69,7 @@ function BookItem(props: props) {
       </CardContent>
       {!props.loading && (
         <CardActions>
-          <Button size="small" onClick={redirect}>
+          <Button size="small" onClick={() => navigate(props.book)}>
             Learn More
           </Button>
         </CardActions>

@@ -2,6 +2,7 @@ import { Box, MenuItem, Popper } from '@mui/material';
 import { Book } from '../../types/books';
 import style from './BookPopper.module.css';
 import BookPopperItem from '../book-popper-item/BooksPopperItem';
+import { useBookNavigate } from '../../hooks/useBookNavigate';
 
 type props = {
   popperEl: HTMLElement | null;
@@ -13,6 +14,8 @@ type props = {
 const skeletonArr = [1, 2, 3, 4, 5];
 
 function BookPopper({ popperEl, openPopper, books, loading }: props) {
+  const navigate = useBookNavigate();
+
   return (
     <Popper
       className={style.BookPopper}
@@ -28,7 +31,7 @@ function BookPopper({ popperEl, openPopper, books, loading }: props) {
               </MenuItem>
             ))
           : books?.map(book => (
-              <MenuItem key={book.key}>
+              <MenuItem key={book.key} onClick={() => navigate(book)}>
                 <BookPopperItem book={book} loading={loading} />
               </MenuItem>
             ))}

@@ -7,7 +7,7 @@ import SignIn from './components/sign-in/SignIn';
 import SignUp from './components/sign-up/SignUp';
 import Favorites from './components/favorites/Favorites';
 import History from './components/history/History';
-import SearchBooks from './components/search-books/SearchBooks';
+import SearchBooks from './pages/SearchBooks/SearchBooks';
 import BookDetailsPage from './pages/BookDetails/BookDetailsPage';
 
 function App() {
