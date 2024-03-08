@@ -22,8 +22,17 @@ interface loadingFalse {
 type props = loadingFalse | loadingTrue;
 
 function BookItem(props: props) {
-  const bookId = props.book?.key.replace('/works/', '');
   const navigate = useNavigate();
+
+  const redirect = () => {
+    if ('book' in props) {
+      const bookId = props.book?.key.replace('/works/', '');
+      navigate(`../book/${bookId}`, {
+        state: { authors: props.book.author_name },
+      });
+    }
+  };
+
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
       {props.loading ? (
@@ -69,15 +78,9 @@ function BookItem(props: props) {
       </CardContent>
       {!props.loading && (
         <CardActions>
-          <Button 
-            size="small"
-            onClick={() =>
-            navigate(`../book/${bookId}`, {
-              state: { authors: book.author_name },
-            })
-          }>
+          <Button size="small" onClick={redirect}>
             Learn More
-            </Button>
+          </Button>
         </CardActions>
       )}
     </Card>
