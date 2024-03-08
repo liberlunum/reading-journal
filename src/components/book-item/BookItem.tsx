@@ -8,10 +8,11 @@ import style from './BookItem.module.css';
 import { Checkbox } from '@mui/material';
 import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function BookItem({ book }: { book: Book }) {
   const bookId = book.key.replace('/works/', '');
+  const navigate = useNavigate();
 
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
@@ -47,9 +48,16 @@ function BookItem({ book }: { book: Book }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`../book/${bookId}`}>
-          <Button size="small">Learn More</Button>
-        </Link>
+        <Button
+          size="small"
+          onClick={() =>
+            navigate(`../book/${bookId}`, {
+              state: { authors: book.author_name },
+            })
+          }
+        >
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );
