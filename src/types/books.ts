@@ -41,3 +41,11 @@ export type BooksAction =
   | FetchBooksAction
   | FetchBooksErrorAction
   | FetchBooksSuccessAction;
+
+export interface IBookDetails {
+  authors: string;
+  title: string;
+  coverImage?: string;
+  description?: string;
+  rating: number;
+}

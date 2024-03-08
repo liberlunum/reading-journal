@@ -1,0 +1,12 @@
+.BookDetailsImage {
+  height: 100%;
+  width: 100%;
+  max-block-size: 85vh;
+  max-inline-size: 900px;
+}
+
+.BookDetailsTextContent {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
