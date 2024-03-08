@@ -1,53 +1,62 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { useLocation } from 'react-router-dom';
 import { useState, useRef } from 'react';
+import { Login } from '../../state/action-creators/auth';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 export type authType = {
   registerSwitch: boolean;
 };
-export type authPrompt = {
+export interface AuthPrompt {
   login: string;
   password: string;
-};
+}
 type FormValues = {
   login: string;
   password: string;
 };
 
+export interface UserData extends AuthPrompt {}
 export default function Auth({
   registerSwitchProp,
 }: {
   registerSwitchProp: boolean;
 }) {
   const [registerSwitch, setRegisterSwitch] = useState(registerSwitchProp);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const dispatch: any = useDispatch();
+  const location = useLocation();
+  const { register, handleSubmit } = useForm<FormValues>();
   const authSwitch = (mode: boolean) => {
     console.log('1');
-    if (registerSwitch !== mode) setRegisterSwitch(mode);
+    if (registerSwitch !== mode) {
+      console.log('path', location.pathname);
+      setRegisterSwitch(mode);
+    }
   };
-  const loginCheck = (auth: authPrompt, userData: authPrompt[]) => {
+  const value = useTypedSelector(state => state.auth);
+  const authedUserPush = (userData: object) => {
+    localStorage.setItem('CurrentUser', JSON.stringify(userData));
+    dispatch(Login(userData));
+  };
+  const loginCheck = (auth: AuthPrompt, userData: AuthPrompt[]) => {
     userData.forEach(el => {
       el.login === auth.login &&
         el.password === auth.password &&
-        localStorage.setItem('Authed', 'true');
+        authedUserPush(el);
     });
-    console.log(localStorage.getItem('Authed'));
   };
 
-  const UsersRef = useRef<authPrompt[]>([]);
-  const updLocalStorage = (auth: authPrompt) => {
+  const UsersRef = useRef<AuthPrompt[]>([]);
+  const updLocalStorage = (auth: AuthPrompt) => {
     const users = localStorage.getItem('Users');
     if (users) UsersRef.current = JSON.parse(users);
     UsersRef.current.push(auth);
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
   };
-  const authCheck = (data: authPrompt, registerSwitch: boolean) => {
+  const authCheck = (data: AuthPrompt, registerSwitch: boolean) => {
     registerSwitch ? updLocalStorage(data) : loginCheck(data, UsersRef.current);
   };
-  console.log(errors);
   return (
     <>
       <div className="auth__type">
