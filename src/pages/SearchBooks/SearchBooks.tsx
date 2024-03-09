@@ -1,16 +1,16 @@
-import BookList from '../book-list/BookList';
-import SearchInput from '../search-input/SearchInput';
+import BookList from '../../components/book-list/BookList';
+import SearchInput from '../../components/search-input/SearchInput';
 import { useEffect, useState } from 'react';
-import { useTypedSelector } from '../hooks/useTypedSelector';
-import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import style from './SearchBooks.module.css';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [countOfPage, setCountOfpage] = useState(1);
 
@@ -31,7 +31,10 @@ function SearchBooks() {
   };
 
   useEffect(() => {
-    if (!searchParams.has('page')) initSearchParams();
+    if (!searchParams.has('page')) {
+      dispatch(eraseBooks());
+      initSearchParams();
+    }
 
     return () => dispatch(eraseBooks());
   }, []);

@@ -1,9 +1,10 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
 import { Login } from '../../state/action-creators/auth';
 import { useDispatch } from 'react-redux';
+import { NavigateFunction } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 export type authType = {
   registerSwitch: boolean;
@@ -23,18 +24,10 @@ export default function Auth({
 }: {
   registerSwitchProp: boolean;
 }) {
-  const [registerSwitch, setRegisterSwitch] = useState(registerSwitchProp);
   const dispatch: any = useDispatch();
-  const location = useLocation();
+  const navigate: NavigateFunction = useNavigate();
   const { register, handleSubmit } = useForm<FormValues>();
-  const authSwitch = (mode: boolean) => {
-    console.log('1');
-    if (registerSwitch !== mode) {
-      console.log('path', location.pathname);
-      setRegisterSwitch(mode);
-    }
-  };
-  const value = useTypedSelector(state => state.auth);
+
   const authedUserPush = (userData: object) => {
     localStorage.setItem('CurrentUser', JSON.stringify(userData));
     dispatch(Login(userData));
@@ -46,11 +39,11 @@ export default function Auth({
         authedUserPush(el);
     });
   };
-
   const UsersRef = useRef<AuthPrompt[]>([]);
+  const users = localStorage.getItem('Users');
+  users ? (UsersRef.current = JSON.parse(users)) : (UsersRef.current = []);
+
   const updLocalStorage = (auth: AuthPrompt) => {
-    const users = localStorage.getItem('Users');
-    if (users) UsersRef.current = JSON.parse(users);
     UsersRef.current.push(auth);
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
   };
@@ -61,18 +54,18 @@ export default function Auth({
     <>
       <div className="auth__type">
         <Button
-          disabled={registerSwitch}
+          disabled={registerSwitchProp}
           onClick={() => {
-            authSwitch(true);
+            navigate('/signup');
           }}
           className="auth__register-button"
         >
           Register
         </Button>
         <Button
-          disabled={!registerSwitch}
+          disabled={!registerSwitchProp}
           onClick={() => {
-            authSwitch(false);
+            navigate('/signin');
           }}
           className="auth__login-button"
         >
@@ -82,7 +75,7 @@ export default function Auth({
       <form
         action=""
         onSubmit={handleSubmit(data => {
-          authCheck(data, registerSwitch);
+          authCheck(data, registerSwitchProp);
         })}
       >
         <div className="auth__input-fields">
@@ -110,7 +103,9 @@ export default function Auth({
             type="text"
           />
         </div>
-        <Button type="submit">{registerSwitch ? 'Register' : 'Login'}</Button>
+        <Button type="submit">
+          {registerSwitchProp ? 'Register' : 'Login'}
+        </Button>
       </form>
     </>
   );

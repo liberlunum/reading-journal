@@ -1,8 +1,13 @@
 type AuthState = {
-  activeUser: {} | null;
+  activeUser?: {
+    favourites?: object[];
+    history?: object[];
+    login?: string;
+    password?: string;
+  } | null;
 };
 const initialState: AuthState = {
-  activeUser: {},
+  activeUser: null,
 };
 export enum AuthActionTypes {
   AUTH_LOGIN = 'AUTH_LOGIN',
@@ -25,7 +30,7 @@ export const authReducer = (
 ): AuthState => {
   switch (action.type) {
     case AuthActionTypes.AUTH_LOGIN:
-      return { activeUser: action.payload };
+      return { activeUser: action.payload.activeUser };
     case AuthActionTypes.AUTH_LOGOUT:
       return {
         activeUser: null,
