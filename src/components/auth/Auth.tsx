@@ -1,11 +1,10 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { Login } from '../../state/action-creators/auth';
 import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
 export type authType = {
   registerSwitch: boolean;
 };
@@ -31,6 +30,7 @@ export default function Auth({
   const authedUserPush = (userData: object) => {
     localStorage.setItem('CurrentUser', JSON.stringify(userData));
     dispatch(Login(userData));
+    navigate('/');
   };
   const loginCheck = (auth: AuthPrompt, userData: AuthPrompt[]) => {
     userData.forEach(el => {
