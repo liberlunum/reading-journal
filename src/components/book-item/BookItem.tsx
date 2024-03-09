@@ -10,23 +10,17 @@ import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { Book } from '../../types/books';
 import { useBookNavigate } from '../../hooks/useBookNavigate';
 
-interface loadingTrue {
-  loading: true;
-}
+type props = {
+  book?: Book;
+  loading: boolean;
+};
 
-interface loadingFalse {
-  book: Book;
-  loading: false;
-}
-
-type props = loadingFalse | loadingTrue;
-
-function BookItem(props: props) {
+function BookItem({ book, loading }: props) {
   const navigate = useBookNavigate();
 
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
-      {props.loading ? (
+      {loading ? (
         <CardMedia className={style.BookItem__media}>
           <Skeleton
             sx={{ height: 330.4 }}
@@ -38,8 +32,8 @@ function BookItem(props: props) {
         <CardMedia
           className={style.BookItem__media}
           image={
-            props.book.cover_edition_key
-              ? `https://covers.openlibrary.org/b/olid/${props.book.cover_edition_key}-M.jpg`
+            book?.cover_edition_key
+              ? `https://covers.openlibrary.org/b/olid/${book?.cover_edition_key}-M.jpg`
               : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
           }
         >
@@ -57,19 +51,19 @@ function BookItem(props: props) {
           gutterBottom
           component="div"
         >
-          {props.loading ? <Skeleton /> : props.book.title}
+          {loading ? <Skeleton /> : book?.title}
         </Typography>
         <Typography
           className={style.BookItem__author}
           variant="body2"
           color="text.secondary"
         >
-          {props.loading ? <Skeleton /> : props.book.author_name}
+          {loading ? <Skeleton /> : book?.author_name}
         </Typography>
       </CardContent>
-      {!props.loading && (
+      {!loading && !!book && (
         <CardActions>
-          <Button size="small" onClick={() => navigate(props.book)}>
+          <Button size="small" onClick={() => navigate(book)}>
             Learn More
           </Button>
         </CardActions>
