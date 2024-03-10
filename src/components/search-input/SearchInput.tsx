@@ -2,7 +2,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import style from './SearchInput.module.css';
+import CloseIcon from '@mui/icons-material/Close';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ClickAwayListener, Divider } from '@mui/material';
@@ -13,12 +13,13 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { fetchBooksForSuggest } from '../../state/action-creators/books';
 import BookPopper from '../book-popper/BookPopper';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import style from './SearchInput.module.css';
 
 function SearchInput() {
   const { books, loading } = useTypedSelector(state => state.booksForSuggest);
   const dispatch = useAppDispatch();
   const [timeout, setTime] = useState<NodeJS.Timeout | null>(null);
-  const [searchString, setSearchString] = useState('');
+  const [searchString, setSearchString] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [popperEl, setPopperEl] = useState<null | HTMLElement>(null);
   const [filterIconEl, setFilterIconEl] = useState<null | HTMLElement>(null);
@@ -91,6 +92,15 @@ function SearchInput() {
                 if (!popperEl) setPopperEl(ref.current);
               }}
             />
+            {!!searchString && (
+              <IconButton
+                onClick={() => setSearchString('')}
+                sx={{ p: '10px' }}
+                aria-label="directions"
+              >
+                <CloseIcon />
+              </IconButton>
+            )}
             <IconButton
               onClick={openFilterMenu}
               sx={{ p: '10px' }}
