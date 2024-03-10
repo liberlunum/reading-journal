@@ -24,25 +24,20 @@ function SearchBooks() {
   };
 
   const initSearchParams = () => {
-    if (!searchParams.get('page')) searchParams.set('page', '1');
-    if (!searchParams.get('limit')) searchParams.set('limit', '20');
-    setSearchParams(searchParams);
+    setSearchParams({
+      limit: '20',
+      page: '1',
+    });
   };
 
   useEffect(() => {
     if (!searchParams.has('page')) {
       dispatch(eraseBooks());
       initSearchParams();
-    } else if (
-      searchParams.has('q') ||
-      searchParams.has('subject') ||
-      searchParams.has('author_key') ||
-      searchParams.has('first_publish_year')
-    )
-      searchBook();
+    }
 
     return () => dispatch(eraseBooks());
-  }, [searchParams]);
+  }, []);
 
   useEffect(() => {
     if (numFound) {
@@ -51,9 +46,10 @@ function SearchBooks() {
     }
   }, [numFound]);
 
-  // useEffect(() => {
-  //   initOrRequest();
-  // }, [searchParams]);
+  useEffect(() => {
+    if (!searchParams.has('page')) initSearchParams();
+    else if (searchParams.get('q')) searchBook();
+  }, [searchParams]);
 
   return (
     <>
