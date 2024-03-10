@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { Book } from '../types/books';
 
 export function useBookNavigate() {
   const navigate = useNavigate();
