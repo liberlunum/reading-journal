@@ -31,6 +31,9 @@ export default function BookDetailsPage() {
   const location = useLocation();
   const navigation = useNavigate();
 
+  const defaultImage =
+    'https://openlibrary.org/images/icons/avatar_book-sm.png';
+
   async function getBookDetails() {
     try {
       setLoading(true);
@@ -45,26 +48,33 @@ export default function BookDetailsPage() {
           )
           .join(',')
       );
+      
+      const authors = location.state?.authors.join(', ') || 'no authors';
+      let descriptionValue = 'no description...';
+      let coverImage = defaultImage;
 
-      let descriptionValue;
 
-      if (description instanceof Object) {
+      if (description instanceof Object && description) {
         descriptionValue = description.value;
-      } else {
+      } else if (description) {
         descriptionValue = description;
+      }
+
+      if (covers?.[0]) {
+        coverImage = `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`;
       }
 
       const ratinResponse = await fetch(
         `https://openlibrary.org/works/${id}/ratings.json`
       );
       const ratingData = await ratinResponse.json();
-      const rating = Number(ratingData.summary.average);
+      const rating = Number(ratingData.summary.average) || 0;
 
       setBookDetails({
-        authors: location.state.authors.join(', '),
+        authors,
         title,
         description: descriptionValue,
-        coverImage: `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`,
+        coverImage,
         rating,
       });
 
@@ -95,11 +105,11 @@ export default function BookDetailsPage() {
             className={style.BookDetailsImage}
             component="img"
             sx={{ objectFit: 'contain' }}
-            image={
-              bookDetails.coverImage ||
-              'https://openlibrary.org/images/icons/avatar_book-sm.png'
-            }
+            image={bookDetails.coverImage}
             alt={`${bookDetails.authors} - ${bookDetails.title}`}
+            onError={({ currentTarget }) => {
+              currentTarget.src = defaultImage;
+            }}
           />
           <Box className={style.BookDetailsTextContent} width={'100%'}>
             <Typography variant="h2">{bookDetails.title}</Typography>
