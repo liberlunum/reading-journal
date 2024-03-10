@@ -33,6 +33,9 @@ const customStyles = {
   cardMedia: {
     width: '100%',
     height: '100%',
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
 };
 
