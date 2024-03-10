@@ -15,7 +15,7 @@ function Favorites() {
   const [loading, setLoading] = useState<boolean>(true);
   const activeUser = useTypedSelector(state => {
     if (state.auth.activeUser) {
-      state.auth.activeUser.favourites = [
+      state.auth.activeUser.favorites = [
         'works/OL863142W',
         'works/OL863642W',
         'works/OL860542W',
@@ -38,11 +38,11 @@ function Favorites() {
   };
 
   useEffect(() => {
-    if (!activeUser?.favourites) {
+    if (!activeUser?.favorites) {
       return;
     }
 
-    const promises = activeUser?.favourites?.map(bookId =>
+    const promises = activeUser?.favorites?.map(bookId =>
       fetch(` https://openlibrary.org/${bookId}.json`)
         .then(response => response.json())
         .catch()
