@@ -7,7 +7,8 @@ import SignIn from './components/sign-in/SignIn';
 import SignUp from './components/sign-up/SignUp';
 import Favorites from './components/favorites/Favorites';
 import History from './components/history/History';
-import Search from './components/search/Search';
+import SearchBooks from './pages/SearchBooks/SearchBooks';
+import BookDetailsPage from './pages/BookDetails/BookDetailsPage';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/history" element={<History />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<SearchBooks />} />
+        <Route path="/book/:id" element={<BookDetailsPage />} />
       </Routes>
     </div>
   );

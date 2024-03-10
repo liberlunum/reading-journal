@@ -6,9 +6,14 @@ import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { Button, Tooltip } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Logout } from '../../state/action-creators/auth';
 import Typography from '@mui/material/Typography';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function Header() {
+  const dispatch: any = useDispatch();
+  const logInCheck = useTypedSelector(state => state.auth.activeUser);
   return (
     <div className={styles.container}>
       <Typography variant="h1" style={{ fontSize: '3rem' }}>
@@ -26,7 +31,7 @@ function Header() {
         </Link>
       </div>
       <div className={styles.iconContainer}>
-        <p>UserName</p>
+        {logInCheck && <p>{logInCheck.login}</p>}
 
         <NavLink to="/search">
           <Tooltip title="Поиск">
@@ -49,13 +54,20 @@ function Header() {
             </IconButton>
           </Tooltip>
         </Link>
-        <Link to="/">
-          <Tooltip title="Выход">
-            <IconButton aria-label="logout">
-              <LogoutTwoToneIcon />
-            </IconButton>
-          </Tooltip>
-        </Link>
+        {logInCheck && (
+          <Link to="/">
+            <Tooltip title="Выход">
+              <IconButton
+                onClick={() => {
+                  dispatch(Logout());
+                }}
+                aria-label="logout"
+              >
+                <LogoutTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        )}
       </div>
     </div>
   );
