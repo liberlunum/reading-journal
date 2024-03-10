@@ -39,20 +39,10 @@ export default function BookDetailsPage() {
       setLoading(true);
       const response = await fetch(`https://openlibrary.org/works/${id}.json`);
       const data = await response.json();
-      const { title, description, covers, authors } = data;
-
-      setAuthorKey(
-        authors
-          .map((authorItem: authorItem) =>
-            authorItem.author.key.replace('/authors/', '')
-          )
-          .join(',')
-      );
-      
+      const { title, description, covers } = data;
       const authors = location.state?.authors.join(', ') || 'no authors';
       let descriptionValue = 'no description...';
       let coverImage = defaultImage;
-
 
       if (description instanceof Object && description) {
         descriptionValue = description.value;
@@ -135,7 +125,7 @@ export default function BookDetailsPage() {
               size="large"
               variant="contained"
               onClick={() =>
-                navigation(`../search?limit=20&page=1&author_key=${authorKey}`)
+                navigation(`../search?limit=20&page=1&q=${bookDetails.authors}`)
               }
             >
               Another autor's books
