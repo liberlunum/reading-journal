@@ -1,10 +1,11 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { Login } from '../../state/action-creators/auth';
 import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { UserType } from '../../state/reducers/authReducer';
 export type authType = {
   registerSwitch: boolean;
@@ -28,11 +29,15 @@ export default function Auth({
   const navigate: NavigateFunction = useNavigate();
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const { errors } = formState;
-  const authedUserPush = (userData: UserType) => {
-    localStorage.setItem('CurrentUser', JSON.stringify(userData));
-    dispatch(Login(userData));
-    navigate('/');
-  };
+  const authedUserPush = useCallback(
+    (userData: UserType) => {
+      localStorage.setItem('CurrentUser', JSON.stringify(userData));
+      dispatch(Login(userData));
+      navigate('/');
+      console.log('userData', userData);
+    },
+    [dispatch, navigate]
+  );
   const loginCheck = (auth: AuthPrompt, userData: UserType[]) => {
     userData.forEach(el => {
       el.login === auth.login &&
@@ -40,7 +45,10 @@ export default function Auth({
         authedUserPush(el);
     });
   };
-
+  useEffect(() => {
+    localStorage.getItem('CurrentUser') &&
+      authedUserPush(JSON.parse(localStorage.getItem('CurrentUser') || ''));
+  }, [authedUserPush]);
   const UsersRef = useRef<UserType[]>([]);
   const users = localStorage.getItem('Users');
   users ? (UsersRef.current = JSON.parse(users)) : (UsersRef.current = []);
@@ -76,7 +84,7 @@ export default function Auth({
           }}
           className="auth__register-button"
         >
-          Register
+          Sign up
         </Button>
         <Button
           disabled={!registerSwitchProp}
@@ -85,7 +93,7 @@ export default function Auth({
           }}
           className="auth__login-button"
         >
-          Login
+          Sign in
         </Button>
       </div>
       <form

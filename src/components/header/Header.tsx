@@ -7,12 +7,25 @@ import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { Button, Tooltip } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Logout } from '../../state/action-creators/auth';
+import { useEffect, useCallback } from 'react';
+import { UserType } from '../../state/reducers/authReducer';
+import { Logout, Login } from '../../state/action-creators/auth';
 import Typography from '@mui/material/Typography';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function Header() {
   const dispatch: any = useDispatch();
+  const authedUserPush = useCallback(
+    (userData: UserType) => {
+      localStorage.setItem('CurrentUser', JSON.stringify(userData));
+      dispatch(Login(userData));
+    },
+    [dispatch]
+  );
+  useEffect(() => {
+    localStorage.getItem('CurrentUser') &&
+      authedUserPush(JSON.parse(localStorage.getItem('CurrentUser') || ''));
+  }, [authedUserPush]);
   const logInCheck = useTypedSelector(state => state.auth.activeUser);
   return (
     <div className={styles.container}>
