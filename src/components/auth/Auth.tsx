@@ -1,10 +1,11 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Login } from '../../state/action-creators/auth';
 import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
+import { UserType } from '../../state/reducers/authReducer';
 export type authType = {
   registerSwitch: boolean;
 };
@@ -25,30 +26,45 @@ export default function Auth({
 }) {
   const dispatch: any = useDispatch();
   const navigate: NavigateFunction = useNavigate();
-  const { register, handleSubmit } = useForm<FormValues>();
-
-  const authedUserPush = (userData: object) => {
+  const { register, handleSubmit, formState } = useForm<FormValues>();
+  const { errors } = formState;
+  const authedUserPush = (userData: UserType) => {
     localStorage.setItem('CurrentUser', JSON.stringify(userData));
     dispatch(Login(userData));
     navigate('/');
   };
-  const loginCheck = (auth: AuthPrompt, userData: AuthPrompt[]) => {
+  const loginCheck = (auth: AuthPrompt, userData: UserType[]) => {
     userData.forEach(el => {
       el.login === auth.login &&
         el.password === auth.password &&
         authedUserPush(el);
     });
   };
-  const UsersRef = useRef<AuthPrompt[]>([]);
+
+  const UsersRef = useRef<UserType[]>([]);
   const users = localStorage.getItem('Users');
   users ? (UsersRef.current = JSON.parse(users)) : (UsersRef.current = []);
-
-  const updLocalStorage = (auth: AuthPrompt) => {
-    UsersRef.current.push(auth);
+  const uploadToLocalStorage = (user: UserType) => {
+    UsersRef.current.push({
+      login: user.login,
+      password: user.password,
+      favorites: [],
+      history: [],
+    });
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
   };
+  const checkUniqueness = (auth: AuthPrompt) => {
+    UsersRef.current.findIndex(el => el.login === auth.login) > 0
+      ? alert('Login is not unique')
+      : uploadToLocalStorage({
+          login: auth.login,
+          password: auth.password,
+          history: [],
+          favorites: [],
+        });
+  };
   const authCheck = (data: AuthPrompt, registerSwitch: boolean) => {
-    registerSwitch ? updLocalStorage(data) : loginCheck(data, UsersRef.current);
+    registerSwitch ? checkUniqueness(data) : loginCheck(data, UsersRef.current);
   };
   return (
     <>
@@ -82,15 +98,19 @@ export default function Auth({
           <TextField
             {...register('login', {
               pattern: {
-                value: /^[a-zA-Z0-9]{4,10}$/,
-                message: 'Login cannot contain special character',
+                value: /(\d|\w)+/,
+                message: 'Login cannot contain special characters',
               },
               required: 'This field is required',
-              minLength: 3,
+              minLength: {
+                value: 3,
+                message: 'Minimal login length is 3 symbols',
+              },
             })}
             label="Login"
             type="text"
           />
+          <p>{errors.login?.message}</p>
           <TextField
             {...register('password', {
               required: 'This field is required',
@@ -102,6 +122,7 @@ export default function Auth({
             label="Password"
             type="text"
           />
+          <p>{errors.password?.message}</p>
         </div>
         <Button type="submit">
           {registerSwitchProp ? 'Register' : 'Login'}

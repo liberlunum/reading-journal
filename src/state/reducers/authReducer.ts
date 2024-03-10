@@ -1,11 +1,13 @@
-type AuthState = {
-  activeUser?: {
-    favourites?: object[];
-    history?: object[];
-    login?: string;
-    password?: string;
-  } | null;
+export interface AuthState {
+  activeUser: UserType | null;
+}
+export type UserType = {
+  favorites: string[];
+  history: string[];
+  login: string;
+  password: string;
 };
+
 const initialState: AuthState = {
   activeUser: null,
 };
