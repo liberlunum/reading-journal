@@ -1,6 +1,6 @@
 import BookList from '../../components/book-list/BookList';
 import SearchInput from '../../components/search-input/SearchInput';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
@@ -17,10 +17,11 @@ function SearchBooks() {
   const [countOfPage, setCountOfpage] = useState(1);
 
   const searchBook = () => {
+    console.log(new Date().getTime().toString());
     dispatch(
       AddHistory({
         url: window.location.href,
-        time: new Date().toLocaleString(),
+        time: new Date().getTime().toString(),
       })
     );
     dispatch(fetchBooks(searchParams.toString()));
