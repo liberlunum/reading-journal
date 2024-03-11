@@ -54,7 +54,7 @@ function Favorites() {
       })
       .catch()
       .finally(() => setLoading(false));
-  }, []);
+  }, [activeUser]);
 
   return (
     <div className={styles.container}>
