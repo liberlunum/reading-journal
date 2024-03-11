@@ -6,7 +6,10 @@ import Typography from '@mui/material/Typography';
 import style from './BookDetailsPage.module.css';
 import { IBookDetails } from '../../types/books';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { addFavorites } from '../../state/action-creators/favorites';
+import {
+  addFavorites,
+  deleteFavorites,
+} from '../../state/action-creators/favorites';
 
 const initialBookState = {
   authors: '',
@@ -72,6 +75,13 @@ export default function BookDetailsPage() {
     dispatch(addFavorites(id));
   };
 
+  const deleteFromFavorites = (id: string | undefined) => {
+    if (!id) {
+      return;
+    }
+    dispatch(deleteFavorites(id));
+  };
+
   return (
     <Box>
       {loading ? (
@@ -113,6 +123,13 @@ export default function BookDetailsPage() {
               onClick={() => addToFavorite(id)}
             >
               Add to favorites
+            </Button>
+            <Button
+              size="large"
+              variant="outlined"
+              onClick={() => deleteFromFavorites(id)}
+            >
+              Delete from favorites
             </Button>
             <Button
               size="large"
