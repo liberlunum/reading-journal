@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import style from './SearchInput.module.css';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { ClickAwayListener, Divider } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterMenu from '../filter-menu/FilterMenu';
@@ -23,6 +23,9 @@ function SearchInput() {
   const [popperEl, setPopperEl] = useState<null | HTMLElement>(null);
   const [filterIconEl, setFilterIconEl] = useState<null | HTMLElement>(null);
   const ref = useRef(null);
+  const location = useLocation();
+
+  const navigation = useNavigate();
 
   const search = (event: MouseEvent | FormEvent) => {
     event.preventDefault();
@@ -33,6 +36,12 @@ function SearchInput() {
     searchParams.set('q', searchString);
     searchParams.set('page', '1');
     setSearchParams(searchParams);
+
+    if (location.pathname === '/') {
+      navigation(
+        `/search/?q=${searchParams.get('q')}&page=${searchParams.get('page')}`
+      );
+    }
   };
 
   const openFilterMenu = (event: React.MouseEvent<HTMLElement>) => {
