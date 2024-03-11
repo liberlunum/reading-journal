@@ -1,60 +1,8 @@
-export interface AuthState {
-  activeUser: UserType | null;
-}
-
-export interface UserHistory {
-  url: string;
-  time: string;
-}
-
-export type UserType = {
-  favorites: string[];
-  history: UserHistory[];
-  login: string;
-  password: string;
-};
+import { AuthAction, AuthActionTypes, AuthState } from '../../types/AuthTypes';
 
 const initialState: AuthState = {
   activeUser: null,
 };
-
-export enum AuthActionTypes {
-  AUTH_LOGIN = 'AUTH_LOGIN',
-  AUTH_LOGOUT = 'AUTH_LOGOUT',
-  ADD_FAVORITE = 'ADD_FAVORITE',
-  DELETE_FAVORITE = 'DELETE_FAVORITE',
-  ADD_HISTORY = 'ADD_HISTORY',
-}
-
-interface AddHistoryAction {
-  type: AuthActionTypes.ADD_HISTORY;
-  payload: UserHistory;
-}
-
-interface AddFavoritesAction {
-  type: AuthActionTypes.ADD_FAVORITE;
-  payload: string;
-}
-interface DeleteFavoritesAction {
-  type: AuthActionTypes.DELETE_FAVORITE;
-  payload: string;
-}
-
-export type FavoritesAction = AddFavoritesAction | DeleteFavoritesAction;
-
-interface AuthLoginAction {
-  type: AuthActionTypes.AUTH_LOGIN;
-  payload: AuthState;
-}
-interface AuthLogoutAction {
-  type: AuthActionTypes.AUTH_LOGOUT;
-}
-
-export type AuthAction =
-  | AuthLoginAction
-  | AuthLogoutAction
-  | AddHistoryAction
-  | FavoritesAction;
 
 export const authReducer = (
   state = initialState,
@@ -73,7 +21,7 @@ export const authReducer = (
             ...state,
             activeUser: {
               ...state.activeUser,
-              history: [...state.activeUser.history, action.payload],
+              history: [action.payload, ...state.activeUser.history],
             },
           }
         : state;

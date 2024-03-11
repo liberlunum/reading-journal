@@ -11,6 +11,7 @@ import { AddHistory } from '../../state/action-creators/auth';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
+  const { activeUser } = useTypedSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [countOfPage, setCountOfpage] = useState(1);
@@ -57,6 +58,10 @@ function SearchBooks() {
     if (!searchParams.has('page')) initSearchParams();
     else if (searchParams.get('q')) searchBook();
   }, [searchParams]);
+
+  useEffect(() => {
+    console.log(activeUser);
+  }, [activeUser]);
 
   return (
     <>

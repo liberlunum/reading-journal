@@ -1,0 +1,20 @@
+.container {
+  width: 45%;
+  margin: 50px auto;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.time {
+  width: 17%;
+}
+
+.url {
+  width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

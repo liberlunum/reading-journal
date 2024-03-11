@@ -1,6 +1,10 @@
 import { Dispatch } from 'react';
-import { UserHistory, UserType } from '../../types/AuthTypes';
-import { AuthAction, AuthActionTypes } from '../reducers/authReducer';
+import {
+  UserHistory,
+  UserType,
+  AuthAction,
+  AuthActionTypes,
+} from '../../types/AuthTypes';
 
 export const Logout = () => {
   localStorage.removeItem('CurrentUser');
