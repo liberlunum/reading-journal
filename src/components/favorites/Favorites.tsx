@@ -9,21 +9,14 @@ import customStyles from './customStyles';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useBookNavigate } from '../../hooks/useBookNavigate';
 import { FullBookInfo } from '../../types/books';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { deleteFavorites } from '../../state/action-creators/favorites';
 
 function Favorites() {
   const [books, setBooks] = useState<FullBookInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const activeUser = useTypedSelector(state => {
-    if (state.auth.activeUser) {
-      state.auth.activeUser.favorites = [
-        'works/OL863142W',
-        'works/OL863642W',
-        'works/OL860542W',
-      ];
-    }
-
-    return state.auth.activeUser;
-  });
+  const dispatch = useAppDispatch();
+  const activeUser = useTypedSelector(state => state.auth.activeUser);
 
   const navigate = useBookNavigate();
   const handleClick = (book: FullBookInfo) => {
@@ -34,21 +27,31 @@ function Favorites() {
     });
   };
   const deleteBook = (key: string) => {
-    setBooks(prevState => prevState.filter(book => book.key !== key));
+    const id = key.replace('/works/', '');
+    setBooks(prevState => prevState.filter(book => book.key !== id));
+    dispatch(deleteFavorites(key));
   };
 
   useEffect(() => {
-    if (!activeUser?.favorites) {
+    if (!activeUser) {
       return;
     }
 
-    const promises = activeUser?.favorites?.map(bookId =>
-      fetch(` https://openlibrary.org/${bookId}.json`)
+    const promises = activeUser.favorites.map(bookId =>
+      fetch(` https://openlibrary.org/works/${bookId}.json`)
         .then(response => response.json())
         .catch()
     );
     Promise.all<any>(promises)
-      .then(response => setBooks(response))
+      .then(response => {
+        const objBook = response.map(book => {
+          return {
+            ...book,
+            key: book.key.replace('/works/', ''),
+          };
+        });
+        setBooks(objBook);
+      })
       .catch()
       .finally(() => setLoading(false));
   }, []);
