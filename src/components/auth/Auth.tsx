@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useCallback } from 'react';
 import { Login } from '../../state/action-creators/auth';
-import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { UserType } from '../../state/reducers/authReducer';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 export type authType = {
   registerSwitch: boolean;
 };
@@ -25,7 +25,7 @@ export default function Auth({
 }: {
   registerSwitchProp: boolean;
 }) {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const { errors } = formState;

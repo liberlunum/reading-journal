@@ -7,6 +7,7 @@ import { Pagination } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import style from './SearchBooks.module.css';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { AddHistory } from '../../state/action-creators/auth';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
@@ -15,6 +16,12 @@ function SearchBooks() {
   const [countOfPage, setCountOfpage] = useState(1);
 
   const searchBook = () => {
+    dispatch(
+      AddHistory({
+        url: window.location.href,
+        time: new Date().toLocaleString(),
+      })
+    );
     dispatch(fetchBooks(searchParams.toString()));
   };
 

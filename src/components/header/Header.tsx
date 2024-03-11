@@ -6,15 +6,15 @@ import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { Button, Tooltip } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useEffect, useCallback } from 'react';
 import { UserType } from '../../state/reducers/authReducer';
 import { Logout, Login } from '../../state/action-creators/auth';
 import Typography from '@mui/material/Typography';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function Header() {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const authedUserPush = useCallback(
     (userData: UserType) => {
       localStorage.setItem('CurrentUser', JSON.stringify(userData));
