@@ -16,9 +16,15 @@ export type FormValues = {
 export interface AuthState {
   activeUser: UserType | null;
 }
+
+export interface UserHistory {
+  url: string;
+  time: string;
+}
+
 export type UserType = {
   favorites: string[];
-  history: string[];
+  history: UserHistory[];
   login: string;
   password: string;
 };

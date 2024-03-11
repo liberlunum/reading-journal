@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { UserHistory, UserType } from '../reducers/authReducer';
+import { UserHistory, UserType } from '../../types/AuthTypes';
 import { AuthAction, AuthActionTypes } from '../reducers/authReducer';
 
 export const Logout = () => {
