@@ -2,11 +2,11 @@ import ShowFavorites from './ShowFavorites';
 import EmptyFavorites from './EmptyFavorites';
 
 function Favorites() {
-  const user = localStorage.getItem('CurrentUser');
+  const user = JSON.parse(localStorage.getItem('CurrentUser')!);
 
   return (
     <>
-      {user ? (
+      {user.favorites.length > 0 ? (
         <ShowFavorites></ShowFavorites>
       ) : (
         <EmptyFavorites></EmptyFavorites>
