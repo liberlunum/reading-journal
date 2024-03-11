@@ -7,27 +7,55 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
+import { FullBookInfo } from '../../types/books';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useBookNavigate } from '../../hooks/useBookNavigate';
+import { deleteFavorites } from '../../state/action-creators/favorites';
 
 function ShowFavorites() {
-  const [books, setBooks] = useState<any[]>([]);
+  const [books, setBooks] = useState<FullBookInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const bookIds = ['works/OL863142W', 'works/OL863642W', 'works/OL860542W'];
+  const dispatch = useAppDispatch();
+  const activeUser = useTypedSelector(state => state.auth.activeUser);
 
+  const navigate = useBookNavigate();
+  const handleClick = (book: FullBookInfo) => {
+    navigate({
+      key: book.key,
+      title: book.title,
+      author_name: [''], // TODO обсудить, что здесь нет этого поля
+    });
+  };
   const deleteBook = (key: string) => {
-    setBooks(prevState => prevState.filter(book => book.key !== key));
+    const id = key.replace('/works/', '');
+    setBooks(prevState => prevState.filter(book => book.key !== id));
+    dispatch(deleteFavorites(key));
   };
 
   useEffect(() => {
-    const promises = bookIds.map(bookId =>
-      fetch(` https://openlibrary.org/${bookId}.json`)
+    if (!activeUser) {
+      return;
+    }
+
+    const promises = activeUser.favorites.map(bookId =>
+      fetch(` https://openlibrary.org/works/${bookId}.json`)
         .then(response => response.json())
         .catch()
     );
-    Promise.all(promises)
-      .then(response => setBooks(response))
+    Promise.all<any>(promises)
+      .then(response => {
+        const objBook = response.map(book => {
+          return {
+            ...book,
+            key: book.key.replace('/works/', ''),
+          };
+        });
+        setBooks(objBook);
+      })
       .catch()
       .finally(() => setLoading(false));
-  }, []);
+  }, [activeUser]);
 
   return (
     <div className={styles.container}>
@@ -51,18 +79,17 @@ function ShowFavorites() {
             >
               <FavoriteIcon />
             </IconButton>
-            <Link to={book.key}>
-              <CardMedia
-                component="img"
-                image={
-                  book.covers?.[0]
-                    ? `https://covers.openlibrary.org/b/id/${book.covers?.[0]}-M.jpg`
-                    : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
-                }
-                alt="обложка"
-                sx={customStyles.cardMedia}
-              />
-            </Link>
+            <CardMedia
+              onClick={() => handleClick(book)}
+              component="img"
+              image={
+                book.covers?.[0]
+                  ? `https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
+                  : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
+              }
+              alt="обложка"
+              sx={customStyles.cardMedia}
+            />
           </Card>
         );
       })}
