@@ -1,7 +1,16 @@
+import ShowFavorites from './ShowFavorites';
+import EmptyFavorites from './EmptyFavorites';
+
 function Favorites() {
+  const user = localStorage.getItem('CurrentUser');
+
   return (
     <>
-      <h1> Favorites </h1>
+      {user ? (
+        <ShowFavorites></ShowFavorites>
+      ) : (
+        <EmptyFavorites></EmptyFavorites>
+      )}
     </>
   );
 }
