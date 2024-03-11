@@ -1,5 +1,4 @@
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { Box } from '@mui/system';
 import {
   Table,
   TableBody,
