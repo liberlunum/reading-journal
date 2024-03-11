@@ -5,6 +5,11 @@ import { Box, Button, CardMedia, Rating } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import style from './BookDetailsPage.module.css';
 import { IBookDetails } from '../../types/books';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import {
+  addFavorites,
+  deleteFavorites,
+} from '../../state/action-creators/favorites';
 
 const initialBookState = {
   authors: '',
@@ -19,6 +24,7 @@ export default function BookDetailsPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigation = useNavigate();
 
@@ -61,6 +67,21 @@ export default function BookDetailsPage() {
     getBookDetails();
   }, [id]);
 
+  const addToFavorite = (id: string | undefined) => {
+    if (!id) {
+      return;
+    }
+
+    dispatch(addFavorites(id));
+  };
+
+  const deleteFromFavorites = (id: string | undefined) => {
+    if (!id) {
+      return;
+    }
+    dispatch(deleteFavorites(id));
+  };
+
   return (
     <Box>
       {loading ? (
@@ -99,9 +120,16 @@ export default function BookDetailsPage() {
             <Button
               size="large"
               variant="outlined"
-              onClick={() => console.log('Add to favorites')}
+              onClick={() => addToFavorite(id)}
             >
               Add to favorites
+            </Button>
+            <Button
+              size="large"
+              variant="outlined"
+              onClick={() => deleteFromFavorites(id)}
+            >
+              Delete from favorites
             </Button>
             <Button
               size="large"

@@ -21,14 +21,26 @@ const initialState: AuthState = {
 export enum AuthActionTypes {
   AUTH_LOGIN = 'AUTH_LOGIN',
   AUTH_LOGOUT = 'AUTH_LOGOUT',
+  ADD_FAVORITE = 'ADD_FAVORITE',
+  DELETE_FAVORITE = 'DELETE_FAVORITE',
   ADD_HISTORY = 'ADD_HISTORY',
-  FETCH_BOOKS_ERROR = 'FETCH_BOOKS_ERROR',
 }
 
 interface AddHistoryAction {
   type: AuthActionTypes.ADD_HISTORY;
   payload: UserHistory;
 }
+
+interface AddFavoritesAction {
+  type: AuthActionTypes.ADD_FAVORITE;
+  payload: string;
+}
+interface DeleteFavoritesAction {
+  type: AuthActionTypes.DELETE_FAVORITE;
+  payload: string;
+}
+
+export type FavoritesAction = AddFavoritesAction | DeleteFavoritesAction;
 
 interface AuthLoginAction {
   type: AuthActionTypes.AUTH_LOGIN;
@@ -37,7 +49,12 @@ interface AuthLoginAction {
 interface AuthLogoutAction {
   type: AuthActionTypes.AUTH_LOGOUT;
 }
-export type AuthAction = AuthLoginAction | AuthLogoutAction | AddHistoryAction;
+
+export type AuthAction =
+  | AuthLoginAction
+  | AuthLogoutAction
+  | AddHistoryAction
+  | FavoritesAction;
 
 export const authReducer = (
   state = initialState,
@@ -60,6 +77,32 @@ export const authReducer = (
             },
           }
         : state;
+    case AuthActionTypes.ADD_FAVORITE:
+      if (!state.activeUser) {
+        return state;
+      }
+
+      return {
+        ...state,
+        activeUser: {
+          ...state.activeUser,
+          favorites: [...state.activeUser.favorites, action.payload],
+        },
+      };
+    case AuthActionTypes.DELETE_FAVORITE:
+      if (!state.activeUser) {
+        return state;
+      }
+
+      return {
+        ...state,
+        activeUser: {
+          ...state.activeUser,
+          favorites: state.activeUser.favorites.filter(
+            book => book !== action.payload
+          ),
+        },
+      };
     default:
       return state;
   }

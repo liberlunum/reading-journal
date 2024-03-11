@@ -23,7 +23,7 @@ export const Login = (prop: UserType) => {
 };
 
 export const AddHistory = (newHistoryItem: UserHistory) => {
-  return (dispatch: Dispatch<AuthAction>, getState: Function) => {
+  return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: AuthActionTypes.ADD_HISTORY,
       payload: newHistoryItem,
