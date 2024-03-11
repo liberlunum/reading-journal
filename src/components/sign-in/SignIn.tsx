@@ -1,8 +1,7 @@
-import Auth from '../auth/Auth';
 function SignIn() {
   return (
     <>
-      <Auth registerSwitchProp={false} />
+      <h1> Sign in</h1>
     </>
   );
 }
