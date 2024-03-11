@@ -1,25 +1,15 @@
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { Login } from '../../state/action-creators/auth';
 import { NavigateFunction } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { UserType } from '../../state/reducers/authReducer';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-export type authType = {
-  registerSwitch: boolean;
-};
-export interface AuthPrompt {
-  login: string;
-  password: string;
-}
-type FormValues = {
-  login: string;
-  password: string;
-};
+import { UserType } from '../../types/AuthTypes';
+import './Auth.css';
+import { AuthPrompt, FormValues, alertType } from '../../types/AuthTypes';
 
-export interface UserData extends AuthPrompt {}
 export default function Auth({
   registerSwitchProp,
 }: {
@@ -27,6 +17,10 @@ export default function Auth({
 }) {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
+  const [registerModal, setRegisterModal] = useState<alertType>({
+    show: false,
+    login: '',
+  });
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const { errors } = formState;
   const authedUserPush = useCallback(
@@ -60,6 +54,7 @@ export default function Auth({
       history: [],
     });
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
+    setRegisterModal({ show: true, login: user.login });
   };
   const checkUniqueness = (auth: AuthPrompt) => {
     UsersRef.current.findIndex(el => el.login === auth.login) > 0
@@ -102,6 +97,12 @@ export default function Auth({
           authCheck(data, registerSwitchProp);
         })}
       >
+        {registerModal.show && (
+          <Alert className={'registerAlertSuccess'} severity="success">
+            Congratulations, {registerModal.login}. You have successfully
+            registered!
+          </Alert>
+        )}
         <div className="auth__input-fields">
           <TextField
             {...register('login', {
