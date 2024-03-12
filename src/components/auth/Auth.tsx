@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { Login } from '../../state/action-creators/auth';
+import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
@@ -32,11 +33,12 @@ export default function Auth({
     [dispatch, navigate]
   );
   const loginCheck = (auth: AuthPrompt, userData: UserType[]) => {
-    userData.forEach(el => {
-      el.login === auth.login &&
-        el.password === auth.password &&
-        authedUserPush(el);
-    });
+    const matchingEl = userData.findIndex(
+      el => el.login === auth.login && el.password === auth.password
+    );
+    matchingEl >= 0
+      ? authedUserPush(userData[matchingEl])
+      : alert('Wrong login or password!');
   };
 
   const UsersRef = useRef<UserType[]>([]);
@@ -53,14 +55,14 @@ export default function Auth({
     setRegisterModal({ show: true, login: user.login });
   };
   const checkUniqueness = (auth: AuthPrompt) => {
-    UsersRef.current.findIndex(el => el.login === auth.login) >= 0
-      ? alert('Login is not unique')
-      : uploadToLocalStorage({
+    UsersRef.current.findIndex(el => el.login === auth.login) < 0
+      ? uploadToLocalStorage({
           login: auth.login,
           password: auth.password,
           history: [],
           favorites: [],
-        });
+        })
+      : alert('Login is not unique');
   };
   const authCheck = (data: AuthPrompt, registerSwitch: boolean) => {
     registerSwitch ? checkUniqueness(data) : loginCheck(data, UsersRef.current);

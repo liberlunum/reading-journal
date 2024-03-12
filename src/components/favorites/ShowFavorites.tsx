@@ -21,11 +21,11 @@ function ShowFavorites() {
 
   const navigate = useBookNavigate();
   const handleClick = (book: FullBookInfo) => {
-    navigate({
-      key: book.key,
-      title: book.title,
-      author_name: [''], // TODO обсудить, что здесь нет этого поля
-    });
+    // navigate({
+    //   key: book.key,
+    //   title: book.title,
+    //   author_name: [''], // TODO обсудить, что здесь нет этого поля
+    // });
   };
   const deleteBook = (key: string) => {
     const id = key.replace('/works/', '');
