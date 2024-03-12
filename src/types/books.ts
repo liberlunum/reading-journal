@@ -49,3 +49,28 @@ export interface IBookDetails {
   description?: string;
   rating: number;
 }
+
+export interface FullBookInfo {
+  title: string;
+  created: {
+    type: string;
+    value: string;
+  };
+  last_modified: {
+    type: string;
+    value: string;
+  };
+  latest_revision: number;
+  key: string;
+  authors: {
+    type: string;
+    author: {
+      key: string;
+    };
+  }[];
+  type: {
+    key: string;
+  };
+  revision: number;
+  covers?: string[];
+}

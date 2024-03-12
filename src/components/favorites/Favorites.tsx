@@ -1,7 +1,16 @@
+import ShowFavorites from './ShowFavorites';
+import EmptyFavorites from './EmptyFavorites';
+
 function Favorites() {
+  const user = JSON.parse(localStorage.getItem('CurrentUser')!);
+
   return (
     <>
-      <h1> Favorites </h1>
+      {user.favorites.length > 0 ? (
+        <ShowFavorites></ShowFavorites>
+      ) : (
+        <EmptyFavorites></EmptyFavorites>
+      )}
     </>
   );
 }

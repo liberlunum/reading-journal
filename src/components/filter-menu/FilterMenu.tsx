@@ -1,7 +1,14 @@
 import { Box, Button, Menu, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import style from './FilterMenu.module.css';
+import { filterReducer, initalFilterState } from '../../reducers/filterReducer';
+import { FilterState } from '../../types/filter';
+import {
+  ChangeSubject,
+  ChangePublishYear,
+  ResetFilters,
+} from '../../action-creators/filter';
 
 interface prop {
   filterIconEl: any;
@@ -9,20 +16,19 @@ interface prop {
 }
 
 function FilterMenu({ filterIconEl, handleClose }: prop) {
-  const [subject, setSubjcet] = useState('');
-  const [publishYear, setPublishYear] = useState('');
+  const [filterState, dispatch] = useReducer(filterReducer, initalFilterState);
   const [searchParams, setSearchParams] = useSearchParams();
+  const filterKeys = Object.keys(filterState);
 
-  const changeSubjcet = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setSubjcet(event.target.value);
-  };
-
-  const changePublishYear = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setPublishYear(event.target.value);
+  const changeFilters = (value: string, filterKey: string) => {
+    switch (filterKey) {
+      case 'subject':
+        dispatch(ChangeSubject(value));
+        break;
+      case 'first_publish_year':
+        dispatch(ChangePublishYear(value));
+        break;
+    }
   };
 
   const closeMenu = () => {
@@ -31,18 +37,24 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
   };
 
   const submitFilter = () => {
-    if (subject) searchParams.set('subject', subject);
-
-    if (publishYear) searchParams.set('publish_year', publishYear);
+    filterKeys.forEach(filterKey => {
+      if (filterState[filterKey as keyof FilterState])
+        searchParams.set(
+          filterKey,
+          filterState[filterKey as keyof FilterState].toString()
+        );
+    });
 
     closeMenu();
   };
 
   const resetFilter = () => {
-    searchParams.delete('subject');
-    searchParams.delete('publish_year');
-    setSubjcet('');
-    setPublishYear('');
+    dispatch(ResetFilters());
+
+    filterKeys.forEach(filterKey => {
+      searchParams.delete(filterKey);
+    });
+
     closeMenu();
   };
 
@@ -58,37 +70,36 @@ function FilterMenu({ filterIconEl, handleClose }: prop) {
   };
 
   useEffect(() => {
-    setSubjcet(searchParams.get('subject') || '');
-
-    setPublishYear(searchParams.get('publish_year') || '');
-  }, [searchParams]);
+    filterKeys.forEach(filterKey => {
+      if (searchParams.get(filterKey))
+        changeFilters(searchParams.get(filterKey) + '', filterKey);
+    });
+  }, []);
 
   return (
     <>
       <Menu
-        MenuListProps={{
-          'aria-labelledby': 'fade-button',
-        }}
         anchorEl={filterIconEl}
         open={Boolean(filterIconEl)}
         onClose={onClose}
         onKeyDown={submit}
       >
         <Box className={style.FilterMenu__form}>
-          <TextField
-            className={style.FilterMenu__input}
-            label="genre"
-            value={subject}
-            onChange={changeSubjcet}
-            size="small"
-          />
-          <TextField
-            className={style.FilterMenu__input}
-            label="year of publication"
-            value={publishYear}
-            onChange={changePublishYear}
-            size="small"
-          />
+          {filterKeys.map(filter => (
+            <TextField
+              key={filter}
+              className={style.FilterMenu__input}
+              label={
+                filter === 'subject' ? 'genre' : filter.replaceAll('_', ' ')
+              }
+              value={filterState[filter as keyof FilterState].replaceAll(
+                ',',
+                ', '
+              )}
+              onChange={event => changeFilters(event.target.value, filter)}
+              size="small"
+            />
+          ))}
         </Box>
         <Box className={style.FilterMenu__button_group}>
           <Button onClick={resetFilter} size="small">

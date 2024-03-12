@@ -1,17 +1,18 @@
 import { Dispatch } from 'react';
-import { AuthAction, AuthActionTypes, UserType } from '../../types/AuthTypes';
+import { UserType } from '../reducers/authReducer';
+import { AuthAction, UserActionTypes } from '../reducers/authReducer';
 export const Logout = () => {
   localStorage.removeItem('CurrentUser');
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
-      type: AuthActionTypes.AUTH_LOGOUT,
+      type: UserActionTypes.AUTH_LOGOUT,
     });
   };
 };
 export const Login = (prop: UserType) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
-      type: AuthActionTypes.AUTH_LOGIN,
+      type: UserActionTypes.AUTH_LOGIN,
       payload: {
         activeUser: prop,
       },

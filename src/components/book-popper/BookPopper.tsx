@@ -31,7 +31,10 @@ function BookPopper({ popperEl, openPopper, books, loading }: props) {
               </MenuItem>
             ))
           : books?.map(book => (
-              <MenuItem key={book.key} onClick={() => navigate(book)}>
+              <MenuItem
+                key={book.key}
+                onClick={() => navigate(book.key, book.author_name)}
+              >
                 <BookPopperItem book={book} loading={loading} />
               </MenuItem>
             ))}

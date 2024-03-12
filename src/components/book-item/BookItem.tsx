@@ -63,7 +63,10 @@ function BookItem({ book, loading }: props) {
       </CardContent>
       {!loading && !!book && (
         <CardActions>
-          <Button size="small" onClick={() => navigate(book)}>
+          <Button
+            size="small"
+            onClick={() => navigate(book.key, book.author_name)}
+          >
             Learn More
           </Button>
         </CardActions>
