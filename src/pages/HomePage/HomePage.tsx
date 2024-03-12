@@ -26,8 +26,7 @@ function Home() {
   const [quote, setQuote] = useState<IQuote>(initialQuoteState);
   const [params, setParams] = useSearchParams();
 
-  //const activeUser = useTypedSelector(state => state.auth.activeUser);
-  const activeUser = JSON.parse(localStorage.getItem('CurrentUser')!);
+  const activeUser = useTypedSelector(state => state.auth.activeUser);
 
   async function fetchQuote() {
     try {
