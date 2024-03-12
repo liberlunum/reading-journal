@@ -49,16 +49,16 @@ function Header() {
       </div>
       <div className={styles.iconContainer} style={{ minWidth: 260 }}>
         {logInCheck && <p>{logInCheck.login}</p>}
-
-        <NavLink to="/search">
-          <Tooltip title="Search">
-            <IconButton aria-label="add to search">
-              <ManageSearchTwoToneIcon />
-            </IconButton>
-          </Tooltip>
-        </NavLink>
         {logInCheck && (
           <>
+            <NavLink to="/search">
+              <Tooltip title="Search">
+                <IconButton aria-label="add to search">
+                  <ManageSearchTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+            </NavLink>
+
             <Link to="/favorites">
               <Tooltip title="Favorites">
                 <IconButton aria-label="add to favorites">
