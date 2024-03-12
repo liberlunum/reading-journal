@@ -71,26 +71,6 @@ export default function Auth({
   };
   return (
     <>
-      <div className="auth__type">
-        <Button
-          disabled={registerSwitchProp}
-          onClick={() => {
-            navigate('/signup');
-          }}
-          className="auth__register-button"
-        >
-          Sign up
-        </Button>
-        <Button
-          disabled={!registerSwitchProp}
-          onClick={() => {
-            navigate('/signin');
-          }}
-          className="auth__login-button"
-        >
-          Sign in
-        </Button>
-      </div>
       <form
         className={'authForm'}
         action=""

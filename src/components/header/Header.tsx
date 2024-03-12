@@ -5,7 +5,7 @@ import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import ManageSearchTwoToneIcon from '@mui/icons-material/ManageSearchTwoTone';
 import { Button, Tooltip } from '@mui/material';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useEffect, useCallback } from 'react';
 import { Logout, Login } from '../../state/action-creators/auth';
 import Typography from '@mui/material/Typography';
@@ -22,7 +22,6 @@ function Header() {
     },
     [dispatch]
   );
-  const location = useLocation();
   useEffect(() => {
     localStorage.getItem('CurrentUser') &&
       authedUserPush(JSON.parse(localStorage.getItem('CurrentUser') || ''));
@@ -37,31 +36,29 @@ function Header() {
       </Typography>
 
       <div className={styles.iconContainer}>
-        {!logInCheck &&
-          location.pathname !== '/signup' &&
-          location.pathname !== '/signin' && (
-            <>
-              <Link to="/signin">
-                <Button>sign in</Button>
-              </Link>
-              <Link to="/signup">
-                <Button>sign up</Button>
-              </Link>
-            </>
-          )}
+        {!logInCheck && (
+          <>
+            <Link to="/signin">
+              <Button>sign in</Button>
+            </Link>
+            <Link to="/signup">
+              <Button>sign up</Button>
+            </Link>
+          </>
+        )}
       </div>
       <div className={styles.iconContainer} style={{ minWidth: 260 }}>
         {logInCheck && <p>{logInCheck.login}</p>}
-
-        <NavLink to="/search">
-          <Tooltip title="Search">
-            <IconButton aria-label="add to search">
-              <ManageSearchTwoToneIcon />
-            </IconButton>
-          </Tooltip>
-        </NavLink>
         {logInCheck && (
           <>
+            <NavLink to="/search">
+              <Tooltip title="Search">
+                <IconButton aria-label="add to search">
+                  <ManageSearchTwoToneIcon />
+                </IconButton>
+              </Tooltip>
+            </NavLink>
+
             <Link to="/favorites">
               <Tooltip title="Favorites">
                 <IconButton aria-label="add to favorites">
