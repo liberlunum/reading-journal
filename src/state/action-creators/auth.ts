@@ -1,6 +1,5 @@
 import { Dispatch } from 'react';
-import { UserType } from '../reducers/authReducer';
-import { AuthAction, AuthActionTypes } from '../reducers/authReducer';
+import { AuthAction, AuthActionTypes, UserType } from '../../types/AuthTypes';
 export const Logout = () => {
   localStorage.removeItem('CurrentUser');
   return (dispatch: Dispatch<AuthAction>) => {

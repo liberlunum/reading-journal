@@ -8,7 +8,7 @@ import { Button, Tooltip } from '@mui/material';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect, useCallback } from 'react';
-import { UserType } from '../../state/reducers/authReducer';
+import { UserType } from '../../types/AuthTypes';
 import { Logout, Login } from '../../state/action-creators/auth';
 import Typography from '@mui/material/Typography';
 import { useTypedSelector } from '../../hooks/useTypedSelector';

@@ -39,10 +39,7 @@ export default function Auth({
         authedUserPush(el);
     });
   };
-  useEffect(() => {
-    localStorage.getItem('CurrentUser') &&
-      authedUserPush(JSON.parse(localStorage.getItem('CurrentUser') || ''));
-  }, [authedUserPush]);
+
   const UsersRef = useRef<UserType[]>([]);
   const users = localStorage.getItem('Users');
   users ? (UsersRef.current = JSON.parse(users)) : (UsersRef.current = []);

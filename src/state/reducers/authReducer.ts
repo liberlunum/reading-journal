@@ -1,31 +1,8 @@
-export interface AuthState {
-  activeUser: UserType | null;
-}
-export type UserType = {
-  favorites: string[];
-  history: string[];
-  login: string;
-  password: string;
-};
+import { AuthAction, AuthActionTypes, AuthState } from '../../types/AuthTypes';
 
 const initialState: AuthState = {
   activeUser: null,
 };
-export enum AuthActionTypes {
-  AUTH_LOGIN = 'AUTH_LOGIN',
-  AUTH_LOGOUT = 'AUTH_LOGOUT',
-  FETCH_BOOKS_ERROR = 'FETCH_BOOKS_ERROR',
-}
-
-interface AuthLoginAction {
-  type: AuthActionTypes.AUTH_LOGIN;
-  payload: AuthState;
-}
-interface AuthLogoutAction {
-  type: AuthActionTypes.AUTH_LOGOUT;
-}
-export type AuthAction = AuthLoginAction | AuthLogoutAction;
-
 export const authReducer = (
   state = initialState,
   action: AuthAction
