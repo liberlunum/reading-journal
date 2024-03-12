@@ -17,13 +17,16 @@ export default function Auth({
   registerSwitchProp: boolean;
 }) {
   const dispatch = useAppDispatch();
+
   const navigate: NavigateFunction = useNavigate();
-  const [modal, setModal] = useState<alertType>({
+  const initialState: alertType = {
     registerErrorShow: false,
-    loginPassErrorShow: false,
+    loginErrorShow: false,
+    passErrorShow: false,
     login: '',
     uniqueErrorShow: false,
-  });
+  };
+  const [alert, setAlert] = useState<alertType>(initialState);
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const { errors } = formState;
   const authedUserPush = useCallback(
@@ -35,12 +38,13 @@ export default function Auth({
     [dispatch, navigate]
   );
   const loginCheck = (auth: AuthPrompt, userData: UserType[]) => {
-    const matchingEl = userData.findIndex(
-      el => el.login === auth.login && el.password === auth.password
-    );
-    matchingEl >= 0
-      ? authedUserPush(userData[matchingEl])
-      : setModal({ ...modal, loginPassErrorShow: true });
+    const matchingEl1 = userData.findIndex(el => el.login === auth.login);
+    const matchingEl2 = userData.findIndex(el => el.password === auth.password);
+    matchingEl1 === matchingEl2 && matchingEl1 >= 0
+      ? authedUserPush(userData[matchingEl1])
+      : matchingEl1 < 0
+        ? setAlert({ ...initialState, loginErrorShow: true })
+        : setAlert({ ...initialState, passErrorShow: true });
   };
 
   const UsersRef = useRef<UserType[]>([]);
@@ -54,7 +58,7 @@ export default function Auth({
       history: [],
     });
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
-    setModal({ ...modal, registerErrorShow: true, login: user.login });
+    setAlert({ ...initialState, registerErrorShow: true, login: user.login });
   };
   const checkUniqueness = (auth: AuthPrompt) => {
     UsersRef.current.findIndex(el => el.login === auth.login) < 0
@@ -64,7 +68,7 @@ export default function Auth({
           history: [],
           favorites: [],
         })
-      : setModal({ ...modal, uniqueErrorShow: true });
+      : setAlert({ ...initialState, uniqueErrorShow: true });
   };
   const authCheck = (data: AuthPrompt, registerSwitch: boolean) => {
     registerSwitch ? checkUniqueness(data) : loginCheck(data, UsersRef.current);
@@ -78,17 +82,22 @@ export default function Auth({
           authCheck(data, registerSwitchProp);
         })}
       >
-        {modal.loginPassErrorShow && (
+        {alert.loginErrorShow && (
           <Alert className={'registerAlertSuccess'} severity="error">
-            Wrong login or password!
+            Not registered login!
           </Alert>
         )}
-        {modal.registerErrorShow && (
+        {alert.passErrorShow && (
+          <Alert className={'registerAlertSuccess'} severity="error">
+            Wrong password!
+          </Alert>
+        )}
+        {alert.registerErrorShow && (
           <Alert className={'registerAlertSuccess'} severity="success">
-            Congratulations, {modal.login}. You have successfully registered!
+            Congratulations, {alert.login}. You have successfully registered!
           </Alert>
         )}
-        {modal.uniqueErrorShow && (
+        {alert.uniqueErrorShow && (
           <Alert className={'registerAlertSuccess'} severity="error">
             Not unique login!
           </Alert>
