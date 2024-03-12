@@ -47,10 +47,10 @@ function Header() {
           </>
         )}
       </div>
-      {logInCheck && <p>{logInCheck.login}</p>}
       {logInCheck && (
         <div className={styles.iconContainer} style={{ minWidth: 260 }}>
           <>
+            <p>{logInCheck.login}</p>
             <NavLink to="/search">
               <Tooltip title="Search">
                 <IconButton aria-label="add to search">

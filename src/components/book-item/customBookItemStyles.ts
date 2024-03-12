@@ -3,6 +3,7 @@ export const customBookItemStyles = {
     position: 'absolute',
     right: 10,
     top: 10,
+    minWidth: 0,
   },
   iconButton: {
     position: 'absolute',
@@ -11,6 +12,7 @@ export const customBookItemStyles = {
     zIndex: 1,
     color: '#C41E3A',
     opacity: 0.7,
+    minWidth: 0,
     '&:hover': {
       opacity: 1,
     },

@@ -2,7 +2,6 @@ import Typography from '@mui/material/Typography';
 import customFavoriteStyles from './customFavoriteStyles';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import React from 'react';
 
 function EmptyFavoritesList() {
   return (

@@ -1,7 +1,7 @@
 import { Middleware } from 'redux';
 import { RootState } from '../reducers';
 import { ActionTypes } from '../../types/ActionTypes';
-import { AuthActionTypes } from '../../types/AuthTypes';
+import { AuthActionTypes, UserType } from '../../types/AuthTypes';
 
 export const UpdateLocalStorage: Middleware<{}, RootState> =
   store => next => (action: ActionTypes) => {
@@ -17,7 +17,7 @@ export const UpdateLocalStorage: Middleware<{}, RootState> =
         return;
       }
       const allUsersFromLS = JSON.parse(localStorage.getItem('Users')!);
-      const updatedAllUsers = allUsersFromLS.map((user: any) => {
+      const updatedAllUsers = allUsersFromLS.map((user: UserType) => {
         if (user.login === activeUser.login) {
           return activeUser;
         } else {

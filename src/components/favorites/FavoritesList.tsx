@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Favorites.module.css';
 import { Box, CardMedia, CircularProgress } from '@mui/material';
 import customFavoriteStyles from './customFavoriteStyles';
