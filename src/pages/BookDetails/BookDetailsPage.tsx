@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import SkeletonBookDetails from '../../components/SkeletonBookDetails/SkeletonBookDetails';
 import { Box, Button, CardMedia, Rating } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import style from './BookDetailsPage.module.css';
 import { IBookDetails } from '../../types/books';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import {
-  addFavorites,
-  deleteFavorites,
-} from '../../state/action-creators/favorites';
+import { FavoriteButton } from '../../components/favorite-button/FavoriteButton';
 
 const initialBookState = {
   authors: '',
@@ -24,7 +20,6 @@ export default function BookDetailsPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigation = useNavigate();
 
@@ -51,10 +46,10 @@ export default function BookDetailsPage() {
         coverImage = `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`;
       }
 
-      const ratinResponse = await fetch(
+      const ratingResponse = await fetch(
         `https://openlibrary.org/works/${id}/ratings.json`
       );
-      const ratingData = await ratinResponse.json();
+      const ratingData = await ratingResponse.json();
       const rating = Number(ratingData.summary.average) || 0;
 
       setBookDetails({
@@ -75,21 +70,6 @@ export default function BookDetailsPage() {
   useEffect(() => {
     getBookDetails();
   }, [id]);
-
-  const addToFavorite = (id: string | undefined) => {
-    if (!id) {
-      return;
-    }
-
-    dispatch(addFavorites(id));
-  };
-
-  const deleteFromFavorites = (id: string | undefined) => {
-    if (!id) {
-      return;
-    }
-    dispatch(deleteFavorites(id));
-  };
 
   return (
     <Box>
@@ -126,20 +106,22 @@ export default function BookDetailsPage() {
             <Typography component="p" align="left">
               {bookDetails.description}
             </Typography>
-            <Button
-              size="large"
-              variant="outlined"
-              onClick={() => addToFavorite(id)}
-            >
-              Add to favorites
-            </Button>
-            <Button
-              size="large"
-              variant="outlined"
-              onClick={() => deleteFromFavorites(id)}
-            >
-              Delete from favorites
-            </Button>
+
+            <FavoriteButton id={id}>
+              {{
+                add: (
+                  <Button size="large" variant="outlined">
+                    Add to favorites
+                  </Button>
+                ),
+                delete: (
+                  <Button size="large" variant="outlined">
+                    Delete from favorites
+                  </Button>
+                ),
+              }}
+            </FavoriteButton>
+
             <Button
               size="large"
               variant="contained"
@@ -147,7 +129,7 @@ export default function BookDetailsPage() {
                 navigation(`../search?limit=20&page=1&q=${bookDetails.authors}`)
               }
             >
-              Another autor's books
+              Another author's books
             </Button>
           </Box>
         </Box>

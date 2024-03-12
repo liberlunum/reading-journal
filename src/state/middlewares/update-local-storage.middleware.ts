@@ -25,7 +25,6 @@ export const UpdateLocalStorage: Middleware<{}, RootState> =
         }
       });
 
-      console.log(activeUser, 'active user');
       localStorage.setItem('CurrentUser', JSON.stringify(activeUser));
       localStorage.setItem('Users', JSON.stringify(updatedAllUsers));
 

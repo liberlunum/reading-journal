@@ -5,10 +5,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './BookItem.module.css';
-import { Checkbox, Skeleton } from '@mui/material';
-import { FavoriteBorder, Favorite } from '@mui/icons-material';
+import { Skeleton } from '@mui/material';
 import { Book } from '../../types/books';
 import { useBookNavigate } from '../../hooks/useBookNavigate';
+import { FavoriteButton } from '../favorite-button/FavoriteButton';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { customBookItemStyles } from './customBookItemStyles';
 
 type props = {
   book?: Book;
@@ -17,7 +19,6 @@ type props = {
 
 function BookItem({ book, loading }: props) {
   const navigate = useBookNavigate();
-
   return (
     <Card className={style.BookItem} sx={{ maxWidth: 345 }}>
       {loading ? (
@@ -37,12 +38,20 @@ function BookItem({ book, loading }: props) {
               : 'https://openlibrary.org/images/icons/avatar_book-sm.png'
           }
         >
-          <Checkbox
-            className={style.BookItem__media__icon}
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            color="error"
-          />
+          <FavoriteButton id={book?.key.replace('/works/', '')}>
+            {{
+              add: (
+                <Button sx={customBookItemStyles.favoriteButton}>
+                  <FavoriteBorder sx={customBookItemStyles.iconButton} />
+                </Button>
+              ),
+              delete: (
+                <Button sx={customBookItemStyles.favoriteButton}>
+                  <Favorite sx={customBookItemStyles.iconButton} />
+                </Button>
+              ),
+            }}
+          </FavoriteButton>
         </CardMedia>
       )}
       <CardContent>
