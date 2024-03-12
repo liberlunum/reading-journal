@@ -1,13 +1,13 @@
 import Typography from '@mui/material/Typography';
-import customStyles from './customStyles';
+import customFavoriteStyles from './customFavoriteStyles';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import React from 'react';
 
-function EmptyFavorites() {
+function EmptyFavoritesList() {
   return (
     <>
-      <Typography sx={customStyles.typographyInEmpty}>
+      <Typography sx={customFavoriteStyles.typographyInEmpty}>
         Sorry, your favorites are empty
         <br />
         But we can start searching for books for you
@@ -15,9 +15,11 @@ function EmptyFavorites() {
         You only need to click on this button:
       </Typography>
       <Link to="/search">
-        <Button sx={customStyles.buttonForSearch}>Let`s go find books</Button>
+        <Button sx={customFavoriteStyles.buttonForSearch}>
+          Let`s go find books
+        </Button>
       </Link>
     </>
   );
 }
-export default EmptyFavorites;
+export default EmptyFavoritesList;

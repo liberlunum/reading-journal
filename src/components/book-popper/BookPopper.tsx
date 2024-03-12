@@ -21,7 +21,7 @@ function BookPopper({ popperEl, openPopper, books, loading }: props) {
       className={style.BookPopper}
       anchorEl={popperEl}
       open={openPopper()}
-      sx={{ width: popperEl?.offsetWidth }}
+      sx={{ width: popperEl?.offsetWidth, zIndex: 2 }}
     >
       <Box>
         {loading

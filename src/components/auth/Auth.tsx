@@ -34,7 +34,6 @@ export default function Auth({
       localStorage.setItem('CurrentUser', JSON.stringify(userData));
       dispatch(Login(userData));
       navigate('/');
-      console.log('userData', userData);
     },
     [dispatch, navigate]
   );

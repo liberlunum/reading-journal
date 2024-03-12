@@ -1,4 +1,4 @@
-const customStyles = {
+const customFavoriteStyles = {
   box: {
     width: '100%',
   },
@@ -55,4 +55,4 @@ const customStyles = {
   },
 };
 
-export default customStyles;
+export default customFavoriteStyles;
