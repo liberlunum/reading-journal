@@ -1,16 +1,16 @@
 import { Middleware } from 'redux';
 import { RootState } from '../reducers';
 import { ActionTypes } from '../../types/ActionTypes';
-import { UserActionTypes } from '../reducers/authReducer';
+import { AuthActionTypes } from '../../types/AuthTypes';
 
-export const favoritesLocalStorage: Middleware<{}, RootState> =
+export const UpdateLocalStorage: Middleware<{}, RootState> =
   store => next => (action: ActionTypes) => {
+    next(action);
     if (
-      action.type === UserActionTypes.ADD_FAVORITE ||
-      action.type === UserActionTypes.DELETE_FAVORITE
+      action.type === AuthActionTypes.ADD_FAVORITE ||
+      action.type === AuthActionTypes.DELETE_FAVORITE ||
+      action.type === AuthActionTypes.ADD_HISTORY
     ) {
-      next(action);
-
       const activeUser = store.getState().auth.activeUser;
 
       if (!activeUser) {
@@ -30,6 +30,4 @@ export const favoritesLocalStorage: Middleware<{}, RootState> =
 
       return;
     }
-
-    next(action);
   };

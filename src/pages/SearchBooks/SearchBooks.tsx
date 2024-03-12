@@ -1,20 +1,29 @@
 import BookList from '../../components/book-list/BookList';
 import SearchInput from '../../components/search-input/SearchInput';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { eraseBooks, fetchBooks } from '../../state/action-creators/books';
 import { Pagination } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import style from './SearchBooks.module.css';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { AddHistory } from '../../state/action-creators/auth';
 
 function SearchBooks() {
   const { books, loading, numFound } = useTypedSelector(state => state.books);
+  const { activeUser } = useTypedSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [countOfPage, setCountOfpage] = useState(1);
 
   const searchBook = () => {
+    console.log(new Date().getTime().toString());
+    dispatch(
+      AddHistory({
+        url: window.location.href,
+        time: new Date().getTime().toString(),
+      })
+    );
     dispatch(fetchBooks(searchParams.toString()));
   };
 
@@ -54,6 +63,10 @@ function SearchBooks() {
   // useEffect(() => {
   //   initOrRequest();
   // }, [searchParams]);
+
+  useEffect(() => {
+    console.log(activeUser);
+  }, [activeUser]);
 
   return (
     <>
