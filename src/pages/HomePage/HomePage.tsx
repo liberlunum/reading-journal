@@ -4,6 +4,7 @@ import style from './HomePage.module.css';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import { Skeleton } from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
 
 interface IQuote {
   text: string;
@@ -11,8 +12,8 @@ interface IQuote {
 }
 
 const initialQuoteState = {
-  text: 'Luck, I am your father',
-  author: 'Dark Wayder',
+  text: 'You shal not pass',
+  author: 'Gandalf',
 };
 
 function getRandomNumber(max: number) {
@@ -22,6 +23,9 @@ function getRandomNumber(max: number) {
 function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [quote, setQuote] = useState<IQuote>(initialQuoteState);
+  const [params, setParams] = useSearchParams();
+
+  const user = JSON.parse(localStorage.getItem('CurrentUser')!);
 
   async function fetchQuote() {
     try {
@@ -31,7 +35,7 @@ function Home() {
       const { text, author } = data[getRandomNumber(15)];
       setQuote({
         text,
-        author,
+        author: author.replace(', type.fit', ''),
       });
       setLoading(false);
     } catch (err) {
@@ -41,6 +45,7 @@ function Home() {
 
   useEffect(() => {
     fetchQuote();
+    setParams('');
   }, []);
 
   return (
@@ -50,25 +55,30 @@ function Home() {
         gap: '50px',
         placeItems: 'center',
         height: '100%',
-        marginBlockStart: '200px',
+        marginBlockStart: '100px',
       }}
     >
       <Box>
-        <Typography variant="h4">Hello, friend!</Typography>
-        <Typography variant="h4">
-          You found yourself on the page of a simple but convenient reader's
-          diary
+        <Typography variant="h4" className={style.HelloText}>
+          Hello, {user?.login || 'friend'}!
         </Typography>
-        <Typography variant="h4">Let's try find something</Typography>
+        {user || (
+          <Typography variant="h4" width={700} className={style.HelloText}>
+            You found yourself on the page of a simple but convenient reader's
+            diary
+          </Typography>
+        )}
+        <Typography variant="h4" className={style.HelloText}>
+          Let's try to find something
+        </Typography>
       </Box>
       <SearchInput />
       {loading ? (
         <Skeleton variant="rectangular" width={500} height={100} />
       ) : (
         <blockquote className={style.Quote}>
-          <Typography variant="subtitle1">Random quote:</Typography>
-          <p className={style.QuoteText}>{quote.text}</p>
-          <cite className={style.QuoteAuthor}>{quote.author}</cite>
+          <p className={style.QuoteText}>{`"${quote.text}"`}</p>
+          <cite className={style.QuoteAuthor}>© {quote.author}</cite>
         </blockquote>
       )}
     </Box>
