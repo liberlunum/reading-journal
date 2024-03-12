@@ -1,24 +1,30 @@
-export type authType = {
-  registerSwitch: boolean;
-};
+export interface AuthState {
+  activeUser: UserType | null;
+}
+
 export type alertType = {
   show: boolean;
   login: string;
 };
+
 export interface AuthPrompt {
   login: string;
   password: string;
 }
+
 export type FormValues = {
   login: string;
   password: string;
 };
-export interface AuthState {
-  activeUser: UserType | null;
+
+export interface UserHistory {
+  url: string;
+  time: string;
 }
+
 export type UserType = {
   favorites: string[];
-  history: string[];
+  history: UserHistory[];
   login: string;
   password: string;
 };
@@ -26,14 +32,37 @@ export type UserType = {
 export enum AuthActionTypes {
   AUTH_LOGIN = 'AUTH_LOGIN',
   AUTH_LOGOUT = 'AUTH_LOGOUT',
-  FETCH_BOOKS_ERROR = 'FETCH_BOOKS_ERROR',
+  ADD_FAVORITE = 'ADD_FAVORITE',
+  DELETE_FAVORITE = 'DELETE_FAVORITE',
+  ADD_HISTORY = 'ADD_HISTORY',
 }
 
-export interface AuthLoginAction {
+interface AddHistoryAction {
+  type: AuthActionTypes.ADD_HISTORY;
+  payload: UserHistory;
+}
+
+interface AddFavoritesAction {
+  type: AuthActionTypes.ADD_FAVORITE;
+  payload: string;
+}
+interface DeleteFavoritesAction {
+  type: AuthActionTypes.DELETE_FAVORITE;
+  payload: string;
+}
+
+export type FavoritesAction = AddFavoritesAction | DeleteFavoritesAction;
+
+interface AuthLoginAction {
   type: AuthActionTypes.AUTH_LOGIN;
   payload: AuthState;
 }
-export interface AuthLogoutAction {
+interface AuthLogoutAction {
   type: AuthActionTypes.AUTH_LOGOUT;
 }
-export type AuthAction = AuthLoginAction | AuthLogoutAction;
+
+export type AuthAction =
+  | AuthLoginAction
+  | AuthLogoutAction
+  | AddHistoryAction
+  | FavoritesAction;

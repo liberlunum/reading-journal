@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useCallback, useState } from 'react';
 import { Login } from '../../state/action-creators/auth';
-import { useDispatch } from 'react-redux';
 import { NavigateFunction } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { UserType } from '../../types/AuthTypes';
 import './Auth.css';
 import { AuthPrompt, FormValues, alertType } from '../../types/AuthTypes';
@@ -15,7 +15,7 @@ export default function Auth({
 }: {
   registerSwitchProp: boolean;
 }) {
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
   const [registerModal, setRegisterModal] = useState<alertType>({
     show: false,

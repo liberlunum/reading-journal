@@ -1,10 +1,10 @@
-import { AuthAction, UserActionTypes } from '../reducers/authReducer';
 import { Dispatch } from 'react';
+import { AuthAction, AuthActionTypes } from '../../types/AuthTypes';
 
 export const addFavorites = (key: string) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
-      type: UserActionTypes.ADD_FAVORITE,
+      type: AuthActionTypes.ADD_FAVORITE,
       payload: key,
     });
   };
@@ -13,7 +13,7 @@ export const addFavorites = (key: string) => {
 export const deleteFavorites = (key: string) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
-      type: UserActionTypes.DELETE_FAVORITE,
+      type: AuthActionTypes.DELETE_FAVORITE,
       payload: key,
     });
   };

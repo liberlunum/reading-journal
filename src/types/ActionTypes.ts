@@ -1,5 +1,9 @@
+import { AuthAction, FavoritesAction } from './AuthTypes';
 import { BooksAction } from './books';
 import { BooksSuggestAction } from './booksForSuggest';
-import { FavoritesAction } from '../state/reducers/authReducer';
 
-export type ActionTypes = BooksAction | BooksSuggestAction | FavoritesAction;
+export type ActionTypes =
+  | BooksAction
+  | BooksSuggestAction
+  | AuthAction
+  | FavoritesAction;
