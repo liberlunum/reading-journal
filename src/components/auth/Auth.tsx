@@ -90,6 +90,7 @@ export default function Auth({
         </Button>
       </div>
       <form
+        className={'authForm'}
         action=""
         onSubmit={handleSubmit(data => {
           authCheck(data, registerSwitchProp);
@@ -122,7 +123,7 @@ export default function Auth({
             {...register('password', {
               required: 'This field is required',
               minLength: {
-                value: 4,
+                value: 8,
                 message: 'Minimal password length is 8 symbols',
               },
             })}
