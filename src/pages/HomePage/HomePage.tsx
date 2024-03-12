@@ -62,7 +62,7 @@ function Home() {
         <Typography variant="h4" className={style.HelloText}>
           Hello, {user?.login || 'friend'}!
         </Typography>
-        {user || (
+        {!Boolean(user) && (
           <Typography variant="h4" width={700} className={style.HelloText}>
             You found yourself on the page of a simple but convenient reader's
             diary
