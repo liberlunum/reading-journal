@@ -51,29 +51,32 @@ function Header() {
         {logInCheck && <p>{logInCheck.login}</p>}
 
         <NavLink to="/search">
-          <Tooltip title="Поиск">
-            <IconButton aria-label="add to favorites">
+          <Tooltip title="Search">
+            <IconButton aria-label="add to search">
               <ManageSearchTwoToneIcon />
             </IconButton>
           </Tooltip>
         </NavLink>
+
         <Link to="/favorites">
-          <Tooltip title="Избранное">
+          <Tooltip title="Favorites">
             <IconButton aria-label="add to favorites">
               <FavoriteTwoToneIcon />
             </IconButton>
           </Tooltip>
         </Link>
+
         <Link to="/history">
-          <Tooltip title="История">
+          <Tooltip title="History">
             <IconButton aria-label="history">
               <HistoryEduTwoToneIcon />
             </IconButton>
           </Tooltip>
         </Link>
+
         {logInCheck && (
           <Link to="/">
-            <Tooltip title="Выход">
+            <Tooltip title="Logout">
               <IconButton
                 onClick={() => {
                   dispatch(Logout());
