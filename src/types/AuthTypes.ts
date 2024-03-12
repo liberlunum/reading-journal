@@ -6,7 +6,8 @@ export type alertType = {
   registerErrorShow: boolean;
   uniqueErrorShow: boolean;
   login: string;
-  loginPassErrorShow: boolean;
+  loginErrorShow: boolean;
+  passErrorShow: boolean;
 };
 
 export interface AuthPrompt {
