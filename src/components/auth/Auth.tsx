@@ -28,7 +28,6 @@ export default function Auth({
       localStorage.setItem('CurrentUser', JSON.stringify(userData));
       dispatch(Login(userData));
       navigate('/');
-      console.log('userData', userData);
     },
     [dispatch, navigate]
   );
@@ -39,10 +38,7 @@ export default function Auth({
         authedUserPush(el);
     });
   };
-  useEffect(() => {
-    localStorage.getItem('CurrentUser') &&
-      authedUserPush(JSON.parse(localStorage.getItem('CurrentUser') || ''));
-  }, [authedUserPush]);
+
   const UsersRef = useRef<UserType[]>([]);
   const users = localStorage.getItem('Users');
   users ? (UsersRef.current = JSON.parse(users)) : (UsersRef.current = []);
@@ -57,7 +53,7 @@ export default function Auth({
     setRegisterModal({ show: true, login: user.login });
   };
   const checkUniqueness = (auth: AuthPrompt) => {
-    UsersRef.current.findIndex(el => el.login === auth.login) > 0
+    UsersRef.current.findIndex(el => el.login === auth.login) >= 0
       ? alert('Login is not unique')
       : uploadToLocalStorage({
           login: auth.login,
