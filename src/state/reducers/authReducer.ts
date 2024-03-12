@@ -1,55 +1,31 @@
-export interface AuthState {
-  activeUser: UserType | null;
-}
-export type UserType = {
-  favorites: string[];
-  history: string[];
-  login: string;
-  password: string;
-};
+import { AuthAction, AuthActionTypes, AuthState } from '../../types/AuthTypes';
 
 const initialState: AuthState = {
   activeUser: null,
 };
-export enum UserActionTypes {
-  AUTH_LOGIN = 'AUTH_LOGIN',
-  AUTH_LOGOUT = 'AUTH_LOGOUT',
-  ADD_FAVORITE = 'ADD_FAVORITE',
-  DELETE_FAVORITE = 'DELETE_FAVORITE',
-}
-
-interface AddFavoritesAction {
-  type: UserActionTypes.ADD_FAVORITE;
-  payload: string;
-}
-interface DeleteFavoritesAction {
-  type: UserActionTypes.DELETE_FAVORITE;
-  payload: string;
-}
-
-export type FavoritesAction = AddFavoritesAction | DeleteFavoritesAction;
-
-interface AuthLoginAction {
-  type: UserActionTypes.AUTH_LOGIN;
-  payload: AuthState;
-}
-interface AuthLogoutAction {
-  type: UserActionTypes.AUTH_LOGOUT;
-}
-export type AuthAction = AuthLoginAction | AuthLogoutAction | FavoritesAction;
 
 export const authReducer = (
   state = initialState,
   action: AuthAction
 ): AuthState => {
   switch (action.type) {
-    case UserActionTypes.AUTH_LOGIN:
+    case AuthActionTypes.AUTH_LOGIN:
       return { activeUser: action.payload.activeUser };
-    case UserActionTypes.AUTH_LOGOUT:
+    case AuthActionTypes.AUTH_LOGOUT:
       return {
         activeUser: null,
       };
-    case UserActionTypes.ADD_FAVORITE:
+    case AuthActionTypes.ADD_HISTORY:
+      return state.activeUser
+        ? {
+            ...state,
+            activeUser: {
+              ...state.activeUser,
+              history: [action.payload, ...state.activeUser.history],
+            },
+          }
+        : state;
+    case AuthActionTypes.ADD_FAVORITE:
       if (!state.activeUser) {
         return state;
       }
@@ -61,7 +37,7 @@ export const authReducer = (
           favorites: [...state.activeUser.favorites, action.payload],
         },
       };
-    case UserActionTypes.DELETE_FAVORITE:
+    case AuthActionTypes.DELETE_FAVORITE:
       if (!state.activeUser) {
         return state;
       }

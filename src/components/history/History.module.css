@@ -1,0 +1,44 @@
+.container {
+  width: 60%;
+  margin: 50px auto;
+}
+
+.table {
+  border: '1px solid #d3d3d3';
+  table-layout: fixed;
+}
+
+.link {
+  width: 77%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.time {
+  width: 23%;
+}
+
+.url {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1536px) {
+  .container {
+    width: 70%;
+  }
+}
+
+@media (max-width: 1440px) {
+  .container {
+    width: 75%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .container {
+    width: 84%;
+  }
+}
