@@ -18,9 +18,11 @@ export default function Auth({
 }) {
   const dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
-  const [registerModal, setRegisterModal] = useState<alertType>({
-    show: false,
+  const [modal, setModal] = useState<alertType>({
+    registerErrorShow: false,
+    loginPassErrorShow: false,
     login: '',
+    uniqueErrorShow: false,
   });
   const { register, handleSubmit, formState } = useForm<FormValues>();
   const { errors } = formState;
@@ -38,7 +40,7 @@ export default function Auth({
     );
     matchingEl >= 0
       ? authedUserPush(userData[matchingEl])
-      : alert('Wrong login or password!');
+      : setModal({ ...modal, loginPassErrorShow: true });
   };
 
   const UsersRef = useRef<UserType[]>([]);
@@ -52,7 +54,7 @@ export default function Auth({
       history: [],
     });
     localStorage.setItem('Users', JSON.stringify(UsersRef.current));
-    setRegisterModal({ show: true, login: user.login });
+    setModal({ ...modal, registerErrorShow: true, login: user.login });
   };
   const checkUniqueness = (auth: AuthPrompt) => {
     UsersRef.current.findIndex(el => el.login === auth.login) < 0
@@ -62,7 +64,7 @@ export default function Auth({
           history: [],
           favorites: [],
         })
-      : alert('Login is not unique');
+      : setModal({ ...modal, uniqueErrorShow: true });
   };
   const authCheck = (data: AuthPrompt, registerSwitch: boolean) => {
     registerSwitch ? checkUniqueness(data) : loginCheck(data, UsersRef.current);
@@ -96,10 +98,19 @@ export default function Auth({
           authCheck(data, registerSwitchProp);
         })}
       >
-        {registerModal.show && (
+        {modal.loginPassErrorShow && (
+          <Alert className={'registerAlertSuccess'} severity="error">
+            Wrong login or password!
+          </Alert>
+        )}
+        {modal.registerErrorShow && (
           <Alert className={'registerAlertSuccess'} severity="success">
-            Congratulations, {registerModal.login}. You have successfully
-            registered!
+            Congratulations, {modal.login}. You have successfully registered!
+          </Alert>
+        )}
+        {modal.uniqueErrorShow && (
+          <Alert className={'registerAlertSuccess'} severity="error">
+            Not unique login!
           </Alert>
         )}
         <div className="auth__input-fields">

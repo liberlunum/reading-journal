@@ -3,8 +3,10 @@ export interface AuthState {
 }
 
 export type alertType = {
-  show: boolean;
+  registerErrorShow: boolean;
+  uniqueErrorShow: boolean;
   login: string;
+  loginPassErrorShow: boolean;
 };
 
 export interface AuthPrompt {
