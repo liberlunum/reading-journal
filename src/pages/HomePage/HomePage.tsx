@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import { Skeleton } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 interface IQuote {
   text: string;
@@ -25,7 +26,8 @@ function Home() {
   const [quote, setQuote] = useState<IQuote>(initialQuoteState);
   const [params, setParams] = useSearchParams();
 
-  const user = JSON.parse(localStorage.getItem('CurrentUser')!);
+  //const activeUser = useTypedSelector(state => state.auth.activeUser);
+  const activeUser = JSON.parse(localStorage.getItem('CurrentUser')!);
 
   async function fetchQuote() {
     try {
@@ -60,9 +62,9 @@ function Home() {
     >
       <Box>
         <Typography variant="h4" className={style.HelloText}>
-          Hello, {user?.login || 'friend'}!
+          Hello, {activeUser?.login || 'friend'}!
         </Typography>
-        {!Boolean(user) && (
+        {!Boolean(activeUser) && (
           <Typography variant="h4" width={700} className={style.HelloText}>
             You found yourself on the page of a simple but convenient reader's
             diary
