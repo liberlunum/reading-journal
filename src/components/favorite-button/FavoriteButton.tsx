@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useFavorites } from '../../hooks/useFavorites';
 import { Alert } from '@mui/material';
