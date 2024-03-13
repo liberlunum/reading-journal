@@ -30,7 +30,11 @@ function Header() {
   const logInCheck = useTypedSelector(state => state.auth.activeUser);
   return (
     <div className={styles.container}>
-      <Typography variant="h1" style={{ fontSize: '3rem' }}>
+      <Typography
+        variant="h1"
+        sx={customHeaderStyles.headerText}
+        style={{ fontSize: '3rem' }}
+      >
         <Link to="/" className={styles.linkHeader}>
           Reading journal
         </Link>

@@ -10,4 +10,8 @@ export const customHeaderStyles = {
       opacity: 0.8,
     },
   },
+  headerText: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 };
