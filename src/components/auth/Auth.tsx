@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { UserType } from '../../types/AuthTypes';
 import './Auth.css';
 import { AuthPrompt, FormValues, alertType } from '../../types/AuthTypes';
+import styles from './Auth.module.css';
 
 export default function Auth({
   registerSwitchProp,
@@ -72,7 +73,7 @@ export default function Auth({
     registerSwitch ? checkUniqueness(data) : loginCheck(data, UsersRef.current);
   };
   return (
-    <>
+    <div className={styles.container}>
       <form
         className={'authForm'}
         action=""
@@ -134,6 +135,6 @@ export default function Auth({
           {registerSwitchProp ? 'Register' : 'Login'}
         </Button>
       </form>
-    </>
+    </div>
   );
 }

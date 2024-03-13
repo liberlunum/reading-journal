@@ -6,6 +6,7 @@
   height: 60px;
   background-color: #fff9f0;
   margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 .linkHeader {
   text-decoration: none;

@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { UserType } from '../../types/AuthTypes';
+import { customHeaderStyles } from './customHeaderStyles';
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -39,10 +40,10 @@ function Header() {
         {!logInCheck && (
           <>
             <Link to="/signin">
-              <Button>sign in</Button>
+              <Button sx={customHeaderStyles.button}>sign in</Button>
             </Link>
             <Link to="/signup">
-              <Button>sign up</Button>
+              <Button sx={customHeaderStyles.button}>sign up</Button>
             </Link>
           </>
         )}
